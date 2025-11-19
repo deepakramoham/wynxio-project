@@ -11,9 +11,14 @@ function App() {
     { id: "ans", name: "Anas" },
   ]);
 
+  const handleAddButton = (newStudent) => {
+    setStudents([...students, newStudent]);
+    
+  };
+
   return (
     <>
-      <ListInput students={students} setStudents={setStudents} />
+      <ListInput handleAddButton={handleAddButton} />
       <ListData students={students} />
     </>
   );

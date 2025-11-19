@@ -1,17 +1,10 @@
 import { useState } from "react";
 
-function ListInput({ students, setStudents }) {
+function ListInput({ handleAddButton }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-  };
-
-  const handleAddButton = () => {
-    setStudents([...students, { id: crypto.randomUUID(), name: inputValue }]);
-
-    console.log(students);
-    setInputValue("");
   };
 
   return (
@@ -21,7 +14,14 @@ function ListInput({ students, setStudents }) {
         onChange={handleInputChange}
         placeholder="Enter your name"
       />
-      <button onClick={handleAddButton}>Add</button>
+      <button
+        onClick={() => {
+          handleAddButton({ id: crypto.randomUUID(), name: inputValue });
+          setInputValue("");
+        }}
+      >
+        Add
+      </button>
     </>
   );
 }
