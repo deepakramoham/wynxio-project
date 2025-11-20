@@ -5,7 +5,6 @@ function ListInput({ handleAddButton }) {
 
   const contactRef = useRef();
 
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -21,6 +20,10 @@ function ListInput({ handleAddButton }) {
     });
     setInputValue("");
   };
+  const myInputStyles = {
+    backgroundColor: "red",
+    fontSize: "2rem",
+  };
 
   return (
     <>
@@ -33,6 +36,12 @@ function ListInput({ handleAddButton }) {
       Best choice when you need form validation, dynamic error messages, or tight UI control.
       */}
       <input
+        // style={{
+        //   backgroundColor: "red",
+        //   fontSize: "2rem",
+        // }}
+
+        className="my-input"
         value={inputValue}
         onChange={handleInputChange}
         placeholder="Enter your name"
@@ -57,6 +66,7 @@ function ListInput({ handleAddButton }) {
       */}
 
       <input
+        style={myInputStyles}
         id="contact"
         ref={contactRef}
         defaultValue={"00000"}
