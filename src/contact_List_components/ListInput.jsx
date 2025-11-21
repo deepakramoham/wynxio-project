@@ -2,17 +2,22 @@ import { useState, useRef } from "react";
 
 function ListInput({ handleAddButton }) {
   const [inputValue, setInputValue] = useState("");
+  const contactRef = useRef();
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleAddClick = () => {
+    const contact = contactRef.current.value;
+
     handleAddButton({
       id: crypto.randomUUID(),
       name: inputValue,
+      contact,
     });
     setInputValue("");
+    contactRef.current.value = "";
   };
 
   return (
@@ -23,7 +28,11 @@ function ListInput({ handleAddButton }) {
           onChange={handleInputChange}
           placeholder="Enter name..."
         />
-        <input type={"tel"} placeholder="contact number . . . " />
+        <input
+          ref={contactRef}
+          type={"tel"}
+          placeholder="contact number . . . "
+        />
       </div>
       <div className="list-input-add-button">
         <div>

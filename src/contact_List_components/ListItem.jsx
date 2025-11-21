@@ -1,13 +1,18 @@
-function ListItem({ id, name }) {
+function ListItem({ student, handleDeleteButton }) {
   return (
     <div className="list-item">
       <div>
-        <p className="name-para">{name}</p>
+        <p className="name-para">{student?.name}</p>
 
-        <p className="phone-number">{9633302969}</p>
+        <p className="phone-number">{student?.contact}</p>
       </div>
       <div className="delete-button-div">
-        <button className="delete-button">Delete</button>
+        <button
+          className="delete-button"
+          onClick={() => handleDeleteButton(student?.id)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
