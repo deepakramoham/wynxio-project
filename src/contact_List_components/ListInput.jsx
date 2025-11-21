@@ -2,48 +2,50 @@ import { useState, useRef } from "react";
 
 function ListInput({ handleAddButton }) {
   const [inputValue, setInputValue] = useState("");
-  const contactRef = useRef();
+  const contactInputRef = useRef();
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleAddClick = () => {
-    const contact = contactRef.current.value;
+    const contactNumber = contactInputRef.current.value;
 
-    handleAddButton({
+    const newStud = {
       id: crypto.randomUUID(),
       name: inputValue,
-      contact,
-    });
+      contact: contactNumber,
+    };
+    handleAddButton(newStud);
     setInputValue("");
-    contactRef.current.value = "";
+    contactInputRef.current.value = "";
   };
 
   return (
     <div className="list-input-section">
-      <div className="list-input-box-div">
-        <input
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="Enter name..."
-        />
-        <input
-          ref={contactRef}
-          type={"tel"}
-          placeholder="contact number . . . "
-        />
-      </div>
-      <div className="list-input-add-button">
-        <div>
-          <button type="reset">Reset</button>
+      <div className="list-input-container">
+        <div className="list-input">
+          <input
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="Enter name..."
+          />
+          <input
+            ref={contactInputRef}
+            type={"tel"}
+            placeholder="Contact number . . . "
+          />
         </div>
 
-        <div>
+        <div className="list-add-button">
           <button type="submit" onClick={handleAddClick}>
             Add
           </button>
         </div>
+      </div>
+
+      <div className="list-search">
+        <input placeholder="Search . . . " type="text" />
       </div>
     </div>
   );

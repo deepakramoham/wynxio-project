@@ -1,27 +1,18 @@
 import ListItem from "./ListItem";
 
 function ListData({ students, handleDeleteButton }) {
-  let content = null;
-
-  if (students?.length > 0) {
-    content = students;
-  }
-
-  //We cannot use if else inside jsx. In such circumstances use ternary, default or guard operator.However we can use if else out of jsx
-
-  return (
-    <>
-      {Array.isArray(content) &&
-        content?.map((student) => (
-          <ListItem
-            key={student.id}
-            student={student}
-            handleDeleteButton={handleDeleteButton}
-          />
-        ))}
-
-      {!content && <p>No contact found</p>}
-    </>
+  return students?.length > 0 ? (
+    students?.map((student) => (
+      <ListItem
+        key={student.id}
+        student={student}
+        handleDeleteButton={handleDeleteButton}
+      />
+    ))
+  ) : (
+    <div class="no-contact-message">
+      <p>No Contact Found</p>
+    </div>
   );
 }
 
