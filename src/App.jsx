@@ -29,7 +29,7 @@ function App() {
       <div className="container">
         <div className="outer-container">
           <div className="contact-collector">
-            <ListInput handleAddButton={handleAddButton} />
+            <ListInput students={students}  handleAddButton={handleAddButton} />
           </div>
           <div className="contacts">
             <ListData

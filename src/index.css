@@ -139,3 +139,12 @@ button {
     flex-direction: row;
   }
 }
+
+/* @media screen and (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+    border-color: white;
+  }
+}
+ */
