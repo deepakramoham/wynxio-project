@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import React from "react";
 
-function ListInput({ handleAddButton, nameRef }) {
+const ListInput = React.forwardRef(function ListInput(
+  { handleAddButton },
+  ref
+) {
   const [inputValue, setInputValue] = useState("");
   const contactInputRef = useRef();
 
@@ -26,7 +30,7 @@ function ListInput({ handleAddButton, nameRef }) {
       <div className="list-input-container">
         <div className="list-input">
           <input
-            ref={nameRef}
+            ref={ref}
             value={inputValue}
             onChange={handleInputChange}
             placeholder="Enter name..."
@@ -50,6 +54,6 @@ function ListInput({ handleAddButton, nameRef }) {
       </div>
     </div>
   );
-}
+});
 
 export default ListInput;

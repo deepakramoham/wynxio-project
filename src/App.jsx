@@ -37,7 +37,7 @@ function App() {
       <div className="container">
         <div className="outer-container">
           <div className="contact-collector">
-            <ListInput nameRef={nameRef} handleAddButton={handleAddButton} />
+            <ListInput ref={nameRef} handleAddButton={handleAddButton} />
           </div>
           <div className="contacts">
             <ListData
