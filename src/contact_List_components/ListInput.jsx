@@ -1,16 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 
-function ListInput({ handleAddButton, students }) {
+function ListInput({ handleAddButton, nameRef }) {
   const [inputValue, setInputValue] = useState("");
   const contactInputRef = useRef();
-  const nameRef = useRef();
-
-  useEffect(() => {
-    if (nameRef.current) {
-      nameRef.current.focus();
-    }
-    console.log("hi");
-  }, [students]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
