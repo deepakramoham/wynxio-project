@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import React from "react";
+import Input from "../components/Input";
 
 const ListInput = React.forwardRef(function ListInput(
-  { handleAddButton },
+  { handleAddButton, searchValue, setSearchValue },
   ref
 ) {
   const [inputValue, setInputValue] = useState("");
+
+  const [nameError, setNameError] = useState("");
+  const [contactError, setContactError] = useState("");
   const contactInputRef = useRef();
 
   const handleInputChange = (e) => {
@@ -15,31 +19,57 @@ const ListInput = React.forwardRef(function ListInput(
   const handleAddClick = () => {
     const contactNumber = contactInputRef.current.value;
 
-    const newStud = {
-      id: crypto.randomUUID(),
-      name: inputValue,
-      contact: contactNumber,
-    };
-    handleAddButton(newStud);
-    setInputValue("");
-    contactInputRef.current.value = "";
+    if (contactNumber === "") {
+      setContactError("Contact is required");
+    }
+    if (inputValue === "") {
+      setNameError("Name is required");
+    }
+
+    if (contactNumber && inputValue) {
+      const newStud = {
+        id: crypto.randomUUID(),
+        name: inputValue,
+        contact: contactNumber,
+      };
+      handleAddButton(newStud);
+      setInputValue("");
+      contactInputRef.current.value = "";
+      setContactError("");
+      setNameError("");
+    }
+  };
+
+  const handleSearch = (event) => {
+    setSearchValue(event.target.value);
   };
 
   return (
     <div className="list-input-section">
       <div className="list-input-container">
         <div className="list-input">
-          <input
-            ref={ref}
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Enter name..."
-          />
-          <input
-            ref={contactInputRef}
-            type={"tel"}
-            placeholder="Contact number . . . "
-          />
+          <div>
+            <Input
+              ref={ref}
+              name={"name"}
+              type="text"
+              value={inputValue}
+              defaultValue="abcde"
+              placeholder="Enter name . . ."
+              onChange={handleInputChange}
+              error={nameError}
+              className={"input-box"}
+            />
+          </div>
+          <div>
+            <Input
+              name={"contact"}
+              ref={contactInputRef}
+              type="tel"
+              placeholder="Enter name . . ."
+              error={contactError}
+            />
+          </div>
         </div>
 
         <div className="list-add-button">
@@ -50,7 +80,13 @@ const ListInput = React.forwardRef(function ListInput(
       </div>
 
       <div className="list-search">
-        <input placeholder="Search . . . " type="text" />
+        <Input
+          name={"search"}
+          value={searchValue}
+          placeholder="Search . . ."
+          type="text"
+          onChange={handleSearch}
+        />
       </div>
     </div>
   );
