@@ -3,7 +3,7 @@ import ListInput from "./contact_List_components/ListInput";
 import ListData from "./contact_List_components/ListData";
 
 function App() {
-  const initialData = [
+  const [students, setStudents] = useState([
     { id: "uma", name: "Uma", contact: 98980000 },
     { id: "jnsh", name: "Jinshi", contact: 98890099 },
     { id: "arun", name: "Arun", contact: 98765432 },
@@ -36,8 +36,7 @@ function App() {
     { id: "sanj", name: "Sanjay", contact: 99890123 },
     { id: "kate", name: "Kate", contact: 99901234 },
     { id: "joel", name: "Joel", contact: 98112244 },
-  ];
-  const [students, setStudents] = useState(initialData);
+  ]);
   const [searchValue, setSearchValue] = useState("");
   const nameRef = useRef();
 
@@ -46,18 +45,6 @@ function App() {
       nameRef.current.focus();
     }
   }, []);
-
-  useEffect(() => {
-    if (searchValue) {
-      const filteredData = initialData?.filter((student) =>
-        student.name.toLowerCase().includes(searchValue.toLowerCase())
-      );
-
-      setStudents([...filteredData]);
-    } else {
-      setStudents([...initialData]);
-    }
-  }, [searchValue]);
 
   const handleAddButton = (newStudent) => {
     setStudents([newStudent, ...students]);
@@ -87,7 +74,9 @@ function App() {
           </div>
           <div className="contacts">
             <ListData
-              students={students}
+              students={students?.filter((student) =>
+                student.name.toLowerCase().includes(searchValue.toLowerCase())
+              )}
               handleDeleteButton={handleDeleteButton}
             />
           </div>
