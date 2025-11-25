@@ -10,7 +10,7 @@ function ListData({ students, handleDeleteButton }) {
       />
     ))
   ) : (
-    <div class="no-contact-message">
+    <div className="no-contact-message">
       <p>No Contact Found</p>
     </div>
   );

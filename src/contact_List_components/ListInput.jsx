@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import Input from "../components/Input";
+import { IoAdd } from "react-icons/io5";
 
 const ListInput = React.forwardRef(function ListInput(
   { handleAddButton, searchValue, setSearchValue },
@@ -73,8 +74,22 @@ const ListInput = React.forwardRef(function ListInput(
         </div>
 
         <div className="list-add-button">
-          <button type="submit" onClick={handleAddClick}>
-            Add
+          <button
+            style={{
+              border: "none",
+              backgroundColor: "#0e6a0e",
+              borderRadius: ".25em",
+              padding: ".25em 1.5em .25em 1.5em",
+            }}
+            type="submit"
+            onClick={handleAddClick}
+          >
+            <IoAdd
+              style={{
+                fontSize: "1.85rem",
+                color: "white",
+              }}
+            />
           </button>
         </div>
       </div>
