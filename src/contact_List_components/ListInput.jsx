@@ -1,14 +1,23 @@
-import { useState, useRef, useEffect } from "react";
-import React from "react";
+import { useState, useRef, useContext } from "react";
 import Input from "../components/Input";
 import { IoAdd } from "react-icons/io5";
+import AppContext from "../context/AppContext";
 
-const ListInput = React.forwardRef(function ListInput(
-  { handleAddButton, searchValue, setSearchValue },
-  ref
-) {
+const ListInput = function ListInput() {
+  console.log("list input is running");
+
+  const { nameRef, students, setStudents, searchValue, setSearchValue } =
+    useContext(AppContext);
+
+  // const appContext = useContext(AppContext);
+  // console.log(appContext);
+  // const students = appContext.students;
+  // const setStudents = appContext.setStudents;
+
+  // const { inputValue, setInputValue } = useContext(AppContext);
   const [inputValue, setInputValue] = useState("");
 
+  
   const [nameError, setNameError] = useState("");
   const [contactError, setContactError] = useState("");
   const contactInputRef = useRef();
@@ -28,12 +37,18 @@ const ListInput = React.forwardRef(function ListInput(
     }
 
     if (contactNumber && inputValue) {
-      const newStud = {
-        id: crypto.randomUUID(),
-        name: inputValue,
-        contact: contactNumber,
-      };
-      handleAddButton(newStud);
+      setStudents(
+        [
+          ...students,
+          {
+            id: crypto.randomUUID(),
+            name: inputValue,
+            contact: contactNumber,
+          },
+        ]?.sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        )
+      );
       setInputValue("");
       contactInputRef.current.value = "";
       setContactError("");
@@ -50,7 +65,7 @@ const ListInput = React.forwardRef(function ListInput(
       <div className="list-input-container">
         <div className="list-input">
           <Input
-            ref={ref}
+            ref={nameRef}
             name={"name"}
             type="text"
             value={inputValue}
@@ -87,6 +102,6 @@ const ListInput = React.forwardRef(function ListInput(
       </div>
     </div>
   );
-});
+};
 
 export default ListInput;

@@ -1,4 +1,5 @@
 const Input = (props) => {
+  console.log("input is running");
   return (
     <div className="input-item">
       <input
