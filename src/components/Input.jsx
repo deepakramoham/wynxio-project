@@ -1,6 +1,6 @@
 const Input = (props) => {
   return (
-    <>
+    <div className="input-item">
       <input
         name={props?.name}
         ref={props?.ref}
@@ -10,8 +10,8 @@ const Input = (props) => {
         onChange={props?.onChange}
         className={`${props?.className}`}
       />
-      <div>{props?.error}</div>
-    </>
+      <div className="input-error">{props?.error}</div>
+    </div>
   );
 };
 export default Input;

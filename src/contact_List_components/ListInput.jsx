@@ -49,47 +49,29 @@ const ListInput = React.forwardRef(function ListInput(
     <div className="list-input-section">
       <div className="list-input-container">
         <div className="list-input">
-          <div>
-            <Input
-              ref={ref}
-              name={"name"}
-              type="text"
-              value={inputValue}
-              defaultValue="abcde"
-              placeholder="Enter name . . ."
-              onChange={handleInputChange}
-              error={nameError}
-              className={"input-box"}
-            />
-          </div>
-          <div>
-            <Input
-              name={"contact"}
-              ref={contactInputRef}
-              type="tel"
-              placeholder="Enter name . . ."
-              error={contactError}
-            />
-          </div>
+          <Input
+            ref={ref}
+            name={"name"}
+            type="text"
+            value={inputValue}
+            defaultValue="abcde"
+            placeholder="Enter name . . ."
+            onChange={handleInputChange}
+            error={nameError}
+            className={"input-box"}
+          />
+          <Input
+            name={"contact"}
+            ref={contactInputRef}
+            type="tel"
+            placeholder="Contact Number . . ."
+            error={contactError}
+          />
         </div>
 
         <div className="list-add-button">
-          <button
-            style={{
-              border: "none",
-              backgroundColor: "#0e6a0e",
-              borderRadius: ".25em",
-              padding: ".25em 1.5em .25em 1.5em",
-            }}
-            type="submit"
-            onClick={handleAddClick}
-          >
-            <IoAdd
-              style={{
-                fontSize: "1.85rem",
-                color: "white",
-              }}
-            />
+          <button className="add-button" type="submit" onClick={handleAddClick}>
+            <IoAdd className="add-icon" />
           </button>
         </div>
       </div>

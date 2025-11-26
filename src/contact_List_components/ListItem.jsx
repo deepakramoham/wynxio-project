@@ -10,21 +10,10 @@ function ListItem({ student, handleDeleteButton }) {
       </div>
       <div className="delete-button-div">
         <button
-          style={{
-            border: "none",
-            backgroundColor: "#a00a0af5",
-            borderRadius: ".25em",
-            padding: ".25em 1.5em  .25em 1.5em",
-          }}
           className="delete-button"
           onClick={() => handleDeleteButton(student?.id)}
         >
-          <RiDeleteBin6Line
-            style={{
-              fontSize: "1.85rem",
-              color: "aliceblue",
-            }}
-          />
+          <RiDeleteBin6Line className="delete-icon" />
         </button>
       </div>
     </div>
