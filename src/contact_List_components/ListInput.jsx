@@ -1,26 +1,23 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import Input from "../components/Input";
 import { IoAdd } from "react-icons/io5";
 import AppContext from "../context/AppContext";
 
 const ListInput = function ListInput() {
-  console.log("list input is running");
+  const nameRef = useRef();
+  const contactInputRef = useRef();
 
-  const { nameRef, students, setStudents, searchValue, setSearchValue } =
-    useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
-  // const appContext = useContext(AppContext);
-  // console.log(appContext);
-  // const students = appContext.students;
-  // const setStudents = appContext.setStudents;
-
-  // const { inputValue, setInputValue } = useContext(AppContext);
   const [inputValue, setInputValue] = useState("");
-
-  
   const [nameError, setNameError] = useState("");
   const [contactError, setContactError] = useState("");
-  const contactInputRef = useRef();
+
+  useEffect(() => {
+    if (nameRef.current) {
+      nameRef.current.focus();
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -37,27 +34,24 @@ const ListInput = function ListInput() {
     }
 
     if (contactNumber && inputValue) {
-      setStudents(
-        [
-          ...students,
-          {
-            id: crypto.randomUUID(),
-            name: inputValue,
-            contact: contactNumber,
-          },
-        ]?.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        )
-      );
+      dispatch({
+        type: "add",
+        payload: {
+          id: crypto.randomUUID(),
+          name: inputValue,
+          contact: contactNumber,
+        },
+      });
       setInputValue("");
       contactInputRef.current.value = "";
       setContactError("");
       setNameError("");
+      nameRef.current.focus();
     }
   };
 
   const handleSearch = (event) => {
-    setSearchValue(event.target.value);
+    dispatch({ type: "search", payload: event.target.value });
   };
 
   return (
@@ -69,7 +63,6 @@ const ListInput = function ListInput() {
             name={"name"}
             type="text"
             value={inputValue}
-            defaultValue="abcde"
             placeholder="Enter name . . ."
             onChange={handleInputChange}
             error={nameError}
@@ -94,7 +87,7 @@ const ListInput = function ListInput() {
       <div className="list-search">
         <Input
           name={"search"}
-          value={searchValue}
+          value={state?.search}
           placeholder="Search . . ."
           type="text"
           onChange={handleSearch}

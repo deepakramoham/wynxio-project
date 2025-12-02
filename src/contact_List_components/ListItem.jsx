@@ -3,16 +3,10 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import AppContext from "../context/AppContext";
 
 function ListItem({ student }) {
-  console.log("list item is running");
-
-  const { students, setStudents } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
 
   const handleDeleteButton = (studentId) => {
-    const filteredArray = students?.filter(
-      (student) => student?.id !== studentId
-    );
-
-    setStudents([...filteredArray]);
+    dispatch({ type: "delete", payload: studentId });
   };
 
   return (
