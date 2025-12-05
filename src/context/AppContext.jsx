@@ -53,7 +53,7 @@ const reducer = (state, action) => {
 
     case "delete":
       return {
-        search: "",
+        ...state,
         students: state?.students?.filter(
           (student) => student?.id !== action.payload
         ),
