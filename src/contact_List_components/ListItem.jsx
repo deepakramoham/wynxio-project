@@ -1,9 +1,8 @@
-import { useContext } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import AppContext from "../context/AppContext";
+import useAppContext from "../hooks/useAppContext";
 
 function ListItem({ student }) {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useAppContext();
 
   const handleDeleteButton = (studentId) => {
     dispatch({ type: "delete", payload: studentId });

@@ -1,9 +1,8 @@
-import { useContext } from "react";
 import ListItem from "./ListItem";
-import AppContext from "../context/AppContext";
+import useAppContext from "../hooks/useAppContext";
 
 function ListData() {
-  const { state } = useContext(AppContext);
+  const { state } = useAppContext();
 
   return state?.students?.length > 0 ? (
     state?.students

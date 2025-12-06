@@ -1,13 +1,13 @@
-import { useState, useRef, useContext, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Input from "../components/Input";
 import { IoAdd } from "react-icons/io5";
-import AppContext from "../context/AppContext";
+import useAppContext from "../hooks/useAppContext";
 
 const ListInput = function ListInput() {
   const nameRef = useRef();
   const contactInputRef = useRef();
 
-  const { state, dispatch } = useContext(AppContext);
+  const { state, dispatch } = useAppContext();
 
   const [inputValue, setInputValue] = useState("");
   const [nameError, setNameError] = useState("");
