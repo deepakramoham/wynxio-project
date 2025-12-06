@@ -1,4 +1,7 @@
-const Input = (props) => {
+import React from "react";
+
+const Input = React.memo((props) => {
+  console.log(props?.name, "input rendering");
   return (
     <div className="input-item">
       <input
@@ -13,5 +16,5 @@ const Input = (props) => {
       <div className="input-error">{props?.error}</div>
     </div>
   );
-};
+});
 export default Input;

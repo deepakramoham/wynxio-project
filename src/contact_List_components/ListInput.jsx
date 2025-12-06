@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext, useEffect, useCallback } from "react";
 import Input from "../components/Input";
 import { IoAdd } from "react-icons/io5";
 import AppContext from "../context/AppContext";
@@ -19,9 +19,9 @@ const ListInput = function ListInput() {
     }
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     setInputValue(e.target.value);
-  };
+  }, []);
 
   const handleAddClick = () => {
     const contactNumber = contactInputRef.current.value;
@@ -50,9 +50,9 @@ const ListInput = function ListInput() {
     }
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = useCallback((event) => {
     dispatch({ type: "search", payload: event.target.value });
-  };
+  }, []);
 
   return (
     <div className="list-input-section">
