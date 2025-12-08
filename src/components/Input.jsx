@@ -11,7 +11,7 @@ const Input = React.memo((props) => {
         type={props?.type}
         placeholder={props?.placeholder}
         onChange={props?.onChange}
-        className={`${props?.className}`}
+        className={`${props?.className || ""}`}
       />
       <div className="input-error">{props?.error}</div>
     </div>
