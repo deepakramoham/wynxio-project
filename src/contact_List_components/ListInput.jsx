@@ -12,6 +12,7 @@ const ListInput = function ListInput() {
     name: "",
     contact: "",
   });
+
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
@@ -27,6 +28,11 @@ const ListInput = function ListInput() {
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
+
+    setFormErrors((prev) => ({
+      ...prev,
+      [name]: value ? "" : `${name} is required`,
+    }));
   }, []);
 
   const validateFormValues = () => {
@@ -37,13 +43,6 @@ const ListInput = function ListInput() {
       }
     });
     setFormErrors(errors);
-
-    // if (Object.keys(errors).length === 0) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
-
     return Object.keys(errors).length === 0;
   };
 
@@ -77,7 +76,7 @@ const ListInput = function ListInput() {
             value={formValues?.name || ""}
             placeholder="Enter name . . ."
             onChange={handleInputChange}
-            error={!formValues?.name && formErrors?.name}
+            error={formErrors?.name}
             className={"input-box"}
           />
           <Input
@@ -86,7 +85,7 @@ const ListInput = function ListInput() {
             type="tel"
             onChange={handleInputChange}
             placeholder="Contact Number . . ."
-            error={!formValues?.contact && formErrors?.contact}
+            error={formErrors?.contact}
           />
         </div>
 
