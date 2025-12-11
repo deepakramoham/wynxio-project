@@ -4,6 +4,7 @@ import { IoAdd } from "react-icons/io5";
 import useAppContext from "../hooks/useAppContext";
 import Modal from "../components/Modal";
 import RadioButton from "../components/RadioButton";
+import Checkbox from "../components/Checkbox";
 
 const ListInput = function ListInput() {
   const nameRef = useRef();
@@ -13,6 +14,8 @@ const ListInput = function ListInput() {
   const [formValues, setFormValues] = useState({
     name: "",
     contact: "",
+    education: "",
+    skills: [],
   });
 
   const [formErrors, setFormErrors] = useState({});
@@ -32,15 +35,26 @@ const ListInput = function ListInput() {
   const handleInputChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-
-    setFormErrors((prev) => ({
-      ...prev,
-      [name]: value ? "" : `${name} is required`,
-    }));
+    if (type === "checkbox") {
+      if (checked) {
+        setFormValues((prev) => ({
+          ...prev,
+          [name]: [...prev[name], value],
+        }));
+      } else {
+        setFormValues((prev) => ({
+          ...prev,
+          [name]: prev[name]?.filter((v) => v !== value),
+        }));
+      }
+    } else {
+      setFormValues((prev) => ({ ...prev, [name]: value }));
+      setFormErrors((prev) => ({
+        ...prev,
+        [name]: value ? "" : `${name} is required`,
+      }));
+    }
   }, []);
-
-  console.log(formValues);
 
   const validateFormValues = () => {
     const errors = {};
@@ -76,6 +90,8 @@ const ListInput = function ListInput() {
       nameRef.current.focus();
     }
   };
+
+  console.log(formValues);
 
   return (
     <>
@@ -131,6 +147,19 @@ const ListInput = function ListInput() {
                     { label: "Non-Tech", value: "non-tech" },
                   ]}
                   handleInputChange={handleInputChange}
+                />
+              </div>
+
+              <div style={{ maxWidth: "75%", marginTop: "18px" }}>
+                <Checkbox
+                  name={"skills"}
+                  handleInputChange={handleInputChange}
+                  label={"Skills familar with"}
+                  options={[
+                    { label: "HTML", value: "html" },
+                    { label: "CSS", value: "css" },
+                    { label: "Javascript", value: "javascript" },
+                  ]}
                 />
               </div>
             </div>

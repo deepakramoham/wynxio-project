@@ -1,4 +1,4 @@
-const RadioButton = ({ options, name, label, handleInputChange }) => {
+const Checkbox = ({ options, label, handleInputChange, name }) => {
   return (
     <>
       <div>
@@ -16,9 +16,9 @@ const RadioButton = ({ options, name, label, handleInputChange }) => {
             <div>
               <input
                 id={opt.value}
-                value={opt.value}
-                type="radio"
                 name={name}
+                type="checkbox"
+                value={opt.value}
                 onChange={handleInputChange}
               />
             </div>
@@ -32,4 +32,4 @@ const RadioButton = ({ options, name, label, handleInputChange }) => {
   );
 };
 
-export default RadioButton;
+export default Checkbox;
