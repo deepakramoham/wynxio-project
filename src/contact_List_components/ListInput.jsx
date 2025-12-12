@@ -5,6 +5,8 @@ import useAppContext from "../hooks/useAppContext";
 import Modal from "../components/Modal";
 import RadioButton from "../components/RadioButton";
 import Checkbox from "../components/Checkbox";
+import Dropdown from "../components/Dropdown";
+import Table from "../components/Table";
 
 const ListInput = function ListInput() {
   const nameRef = useRef();
@@ -21,6 +23,7 @@ const ListInput = function ListInput() {
   const [formErrors, setFormErrors] = useState({});
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     if (nameRef.current) {
@@ -93,6 +96,50 @@ const ListInput = function ListInput() {
 
   console.log(formValues);
 
+  const tableColumns = [
+    { header: "Sl. No", accessor: "slNo" },
+    { header: "Full Name", accessor: "name" },
+    { header: "Contact", accessor: "contact" },
+    { header: "Education", accessor: "education" },
+    { header: "Familiar tech stacks", accessor: "skills" },
+    { header: "Course", accessor: "course" },
+  ];
+
+  const data = [
+    {
+      name: "Jinshi",
+      contact: "123",
+      education: "non-tech",
+      skills: ["html", "css"],
+      course: "react",
+    },
+    {
+      name: "Uma",
+      contact: "1234",
+      education: "tech",
+      skills: ["html", "css", "javascript"],
+      course: "mern",
+    },
+    {
+      name: "Deepak",
+      contact: "12345",
+      education: "non-tech",
+      skills: ["html"],
+      course: "python",
+    },
+  ];
+
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      const modifiedDataArray = data?.map((item, index) => ({
+        slNo: index + 1,
+        ...item,
+      }));
+
+      setTableData(modifiedDataArray);
+    }
+  });
+  [data];
   return (
     <>
       {modalOpen ? (
@@ -126,18 +173,6 @@ const ListInput = function ListInput() {
                   label={"Contact"}
                 />
               </div>
-              {/* <div>
-                <RadioButton
-                  name="gender"
-                  label={"Gender"}
-                  options={[
-                    { label: "Male", value: "male" },
-                    { label: "Female", value: "female" },
-                    { label: "Other", value: "other" },
-                  ]}
-                  handleInputChange={handleInputChange}
-                />
-              </div> */}
               <div style={{ maxWidth: "75%" }}>
                 <RadioButton
                   label={"Education"}
@@ -162,27 +197,49 @@ const ListInput = function ListInput() {
                   ]}
                 />
               </div>
+              <div style={{ maxWidth: "75%", marginTop: "18px" }}>
+                <Dropdown
+                  name={"course"}
+                  label={"Course"}
+                  handleInputChange={handleInputChange}
+                  options={[
+                    { label: "React", value: "react" },
+                    { label: "MERN", value: "mern" },
+                    { label: "Python", value: "python" },
+                  ]}
+                />
+              </div>
             </div>
           }
           handleSave={handleSave}
         />
       ) : (
-        <div style={{ display: "flex", gap: "5px", alignItems: "start" }}>
-          <div style={{ flex: "1" }}>
-            <Input
-              name={"search"}
-              value={state?.search}
-              placeholder="Search . . ."
-              type="text"
-              onChange={handleSearch}
-            />
+        <>
+          <div style={{ display: "flex", gap: "5px", alignItems: "start" }}>
+            <div style={{ flex: "1" }}>
+              <Input
+                name={"search"}
+                value={state?.search}
+                placeholder="Search . . ."
+                type="text"
+                onChange={handleSearch}
+                style={{ maxWidth: "350px" }}
+              />
+            </div>
+            <div>
+              <button
+                className="add-button"
+                type="submit"
+                onClick={toggleModal}
+              >
+                <IoAdd className="add-icon" />
+              </button>
+            </div>
           </div>
           <div>
-            <button className="add-button" type="submit" onClick={toggleModal}>
-              <IoAdd className="add-icon" />
-            </button>
+            <Table tableColumns={tableColumns} data={tableData} />
           </div>
-        </div>
+        </>
       )}
     </>
   );

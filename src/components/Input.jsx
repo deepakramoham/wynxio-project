@@ -24,6 +24,7 @@ const Input = React.memo((props) => {
           placeholder={props?.placeholder}
           onChange={props?.onChange}
           className={`${props?.className || ""}`}
+          style={props?.style || {}}
         />
       </div>
 
