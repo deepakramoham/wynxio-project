@@ -11,6 +11,7 @@ const ManageStudents = function ListInput() {
   const nameRef = useRef();
 
   const { state, dispatch } = useAppContext();
+  const { students } = state;
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -23,7 +24,6 @@ const ManageStudents = function ListInput() {
   const [formErrors, setFormErrors] = useState({});
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [data, setData] = useState(state.students);
   const [tableData, setTableData] = useState([]);
 
   const tableColumns = [
@@ -36,8 +36,8 @@ const ManageStudents = function ListInput() {
   ];
 
   useEffect(() => {
-    if (Array.isArray(data)) {
-      const modifiedDataArray = data?.map((student, index) => ({
+    if (Array.isArray(students)) {
+      const modifiedDataArray = students?.map((student, index) => ({
         slNo: index + 1,
         ...student,
         skills: Array.isArray(student?.skills)
@@ -47,11 +47,10 @@ const ManageStudents = function ListInput() {
 
       setTableData(modifiedDataArray);
     }
-  }, [data]);
+  }, [students]);
 
   const handleInputChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
-
     if (type === "checkbox") {
       if (checked) {
         setFormValues((prev) => ({
@@ -104,7 +103,6 @@ const ManageStudents = function ListInput() {
         type: "add",
         payload: newStudent,
       });
-      setData([...data, newStudent]);
       resetStates();
     }
   };
@@ -115,7 +113,7 @@ const ManageStudents = function ListInput() {
         <Modal
           modalOpen={modalOpen}
           setModalOpen={toggleModal}
-          modalTitle={"Manage Student"}
+          modalTitle={"Add Student"}
           modalBody={
             <div style={{ padding: ".5em" }}>
               <div style={{ maxWidth: "75%" }}>
@@ -184,7 +182,7 @@ const ManageStudents = function ListInput() {
         />
       )}
 
-      <div className="p-2">
+      <div className="p-2 ">
         <Table
           tableColumns={tableColumns}
           data={tableData}

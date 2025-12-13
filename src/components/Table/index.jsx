@@ -3,7 +3,7 @@ import { IoAdd } from "react-icons/io5";
 const Table = ({ tableColumns, data, toggleModal }) => {
   return (
     <>
-      <div style={{ display: "flex", gap: "5px", alignItems: "start" }}>
+      <div className="d-flex gap-5 align-items-start">
         <div style={{ flex: "1" }}>
           <Input
             name={"search"}
