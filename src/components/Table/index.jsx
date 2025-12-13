@@ -36,7 +36,9 @@ const Table = ({ tableColumns, data, toggleModal }) => {
           {data?.map((student, index) => (
             <tr key={index}>
               {tableColumns.map((col, index) => (
-                <td key={index}>{student[col.accessor]}</td>
+                <td key={index}>
+                  {col?.render ? col?.render(student) : student[col.accessor]}
+                </td>
               ))}
             </tr>
           ))}

@@ -26,6 +26,17 @@ const ManageStudents = function ListInput() {
   const [modalOpen, setModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
 
+  const handleEdit = (studentId) => {
+    console.log(studentId);
+  };
+
+  const handleDelete = (studentId) => {
+    dispatch({
+      type: "delete",
+      payload: studentId,
+    });
+  };
+
   const tableColumns = [
     { header: "Sl. No", accessor: "slNo" },
     { header: "Full Name", accessor: "name" },
@@ -33,6 +44,29 @@ const ManageStudents = function ListInput() {
     { header: "Education", accessor: "education" },
     { header: "Familiar tech stacks", accessor: "skills" },
     { header: "Course", accessor: "course" },
+    {
+      header: "Actions",
+      render: (student) => {
+        return (
+          <>
+            <div className="d-flex gap-4">
+              <button
+                className="btn btn-sm btn-warning"
+                onClick={() => handleEdit(student?.id)}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => handleDelete(student?.id)}
+              >
+                Delete
+              </button>
+            </div>
+          </>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
@@ -85,6 +119,14 @@ const ManageStudents = function ListInput() {
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
+    setFormValues({
+      name: "",
+      contact: "",
+      education: "",
+      skills: [],
+      course: "",
+    });
+    setFormErrors({});
   };
 
   const resetStates = () => {
