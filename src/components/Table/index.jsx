@@ -1,28 +1,44 @@
-const Table = ({ tableColumns, data }) => {
+import Input from "../Input/Input";
+import { IoAdd } from "react-icons/io5";
+const Table = ({ tableColumns, data, toggleModal }) => {
   return (
     <>
-      <table class="table">
+      <div style={{ display: "flex", gap: "5px", alignItems: "start" }}>
+        <div style={{ flex: "1" }}>
+          <Input
+            name={"search"}
+            value={""}
+            placeholder="Search . . ."
+            type="text"
+            onChange={() => {}}
+            style={{ maxWidth: "350px" }}
+          />
+        </div>
+        <div>
+          <button
+            className="btn btn-success px-4"
+            type="submit"
+            onClick={toggleModal}
+          >
+            <IoAdd className="add-icon" />
+          </button>
+        </div>
+      </div>
+      <table className="table">
         <thead>
           <tr>
-            {tableColumns?.map((col) => (
-              <th key={col.accessor}>{col.header}</th>
+            {tableColumns?.map((col, index) => (
+              <th key={index}>{col.header}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data?.map((row, index) => (
-            <>
-              <tr>
-                
-                {tableColumns.map((col) => (
-                  <td>
-                    {Array.isArray(row[col.accessor])
-                      ? row[col.accessor]?.join(", ")
-                      : row[col.accessor]}
-                  </td>
-                ))}
-              </tr>
-            </>
+          {data?.map((student, index) => (
+            <tr key={index}>
+              {tableColumns.map((col, index) => (
+                <td key={index}>{student[col.accessor]}</td>
+              ))}
+            </tr>
           ))}
         </tbody>
       </table>

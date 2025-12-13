@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import Input from "../components/Input";
-import { IoAdd } from "react-icons/io5";
+import Input from "../components/Input/Input";
 import useAppContext from "../hooks/useAppContext";
 import Modal from "../components/Modal";
 import RadioButton from "../components/RadioButton";
@@ -8,7 +7,7 @@ import Checkbox from "../components/Checkbox";
 import Dropdown from "../components/Dropdown";
 import Table from "../components/Table";
 
-const ListInput = function ListInput() {
+const ManageStudents = function ListInput() {
   const nameRef = useRef();
 
   const { state, dispatch } = useAppContext();
@@ -18,22 +17,37 @@ const ListInput = function ListInput() {
     contact: "",
     education: "",
     skills: [],
+    course: "",
   });
 
   const [formErrors, setFormErrors] = useState({});
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [data, setData] = useState(state.students);
   const [tableData, setTableData] = useState([]);
 
-  useEffect(() => {
-    if (nameRef.current) {
-      nameRef.current.focus();
-    }
-  }, []);
+  const tableColumns = [
+    { header: "Sl. No", accessor: "slNo" },
+    { header: "Full Name", accessor: "name" },
+    { header: "Contact", accessor: "contact" },
+    { header: "Education", accessor: "education" },
+    { header: "Familiar tech stacks", accessor: "skills" },
+    { header: "Course", accessor: "course" },
+  ];
 
-  const handleSearch = useCallback((event) => {
-    dispatch({ type: "search", payload: event.target.value });
-  }, []);
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      const modifiedDataArray = data?.map((student, index) => ({
+        slNo: index + 1,
+        ...student,
+        skills: Array.isArray(student?.skills)
+          ? student?.skills?.join(", ")
+          : "",
+      }));
+
+      setTableData(modifiedDataArray);
+    }
+  }, [data]);
 
   const handleInputChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
@@ -85,64 +99,19 @@ const ListInput = function ListInput() {
 
   const handleSave = () => {
     if (validateFormValues()) {
+      const newStudent = { ...formValues, id: crypto.randomUUID() };
       dispatch({
         type: "add",
-        payload: { ...formValues, id: crypto.randomUUID() },
+        payload: newStudent,
       });
+      setData([...data, newStudent]);
       resetStates();
-      nameRef.current.focus();
     }
   };
 
-  console.log(formValues);
-
-  const tableColumns = [
-    { header: "Sl. No", accessor: "slNo" },
-    { header: "Full Name", accessor: "name" },
-    { header: "Contact", accessor: "contact" },
-    { header: "Education", accessor: "education" },
-    { header: "Familiar tech stacks", accessor: "skills" },
-    { header: "Course", accessor: "course" },
-  ];
-
-  const data = [
-    {
-      name: "Jinshi",
-      contact: "123",
-      education: "non-tech",
-      skills: ["html", "css"],
-      course: "react",
-    },
-    {
-      name: "Uma",
-      contact: "1234",
-      education: "tech",
-      skills: ["html", "css", "javascript"],
-      course: "mern",
-    },
-    {
-      name: "Deepak",
-      contact: "12345",
-      education: "non-tech",
-      skills: ["html"],
-      course: "python",
-    },
-  ];
-
-  useEffect(() => {
-    if (Array.isArray(data)) {
-      const modifiedDataArray = data?.map((item, index) => ({
-        slNo: index + 1,
-        ...item,
-      }));
-
-      setTableData(modifiedDataArray);
-    }
-  });
-  [data];
   return (
     <>
-      {modalOpen ? (
+      {modalOpen && (
         <Modal
           modalOpen={modalOpen}
           setModalOpen={toggleModal}
@@ -213,36 +182,17 @@ const ListInput = function ListInput() {
           }
           handleSave={handleSave}
         />
-      ) : (
-        <>
-          <div style={{ display: "flex", gap: "5px", alignItems: "start" }}>
-            <div style={{ flex: "1" }}>
-              <Input
-                name={"search"}
-                value={state?.search}
-                placeholder="Search . . ."
-                type="text"
-                onChange={handleSearch}
-                style={{ maxWidth: "350px" }}
-              />
-            </div>
-            <div>
-              <button
-                className="add-button"
-                type="submit"
-                onClick={toggleModal}
-              >
-                <IoAdd className="add-icon" />
-              </button>
-            </div>
-          </div>
-          <div>
-            <Table tableColumns={tableColumns} data={tableData} />
-          </div>
-        </>
       )}
+
+      <div className="p-2">
+        <Table
+          tableColumns={tableColumns}
+          data={tableData}
+          toggleModal={toggleModal}
+        />
+      </div>
     </>
   );
 };
 
-export default ListInput;
+export default ManageStudents;

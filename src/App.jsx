@@ -1,12 +1,9 @@
-import ListInput from "./contact_List_components/ListInput";
-import ListData from "./contact_List_components/ListData";
+import ManageStudents from "./pages/ManageStudents";
 
 function App() {
   return (
     <>
-      <div className="contact-collector">
-        <ListInput />
-      </div>
+      <ManageStudents />
     </>
   );
 }
