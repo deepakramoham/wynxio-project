@@ -1,4 +1,10 @@
-const Checkbox = ({ options, label, handleInputChange, name }) => {
+const Checkbox = ({
+  options,
+  label,
+  handleInputChange,
+  name,
+  selectedValues,
+}) => {
   return (
     <>
       <div>
@@ -20,6 +26,7 @@ const Checkbox = ({ options, label, handleInputChange, name }) => {
                 type="checkbox"
                 value={opt.value}
                 onChange={handleInputChange}
+                checked={selectedValues?.includes(opt.value)}
               />
             </div>
             <div>

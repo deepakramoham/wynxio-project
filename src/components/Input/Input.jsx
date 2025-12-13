@@ -1,7 +1,6 @@
 import React from "react";
 
 const Input = React.memo((props) => {
-  console.log(props?.name, "input rendering");
   return (
     <div className="">
       {props?.label ? (

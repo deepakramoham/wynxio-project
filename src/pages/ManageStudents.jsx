@@ -107,6 +107,8 @@ const ManageStudents = function ListInput() {
     }
   };
 
+  console.log(formValues);
+
   return (
     <>
       {modalOpen && (
@@ -149,6 +151,7 @@ const ManageStudents = function ListInput() {
                     { label: "Non-Tech", value: "non-tech" },
                   ]}
                   handleInputChange={handleInputChange}
+                  selectedValue={formValues?.education || ""}
                 />
               </div>
 
@@ -162,12 +165,14 @@ const ManageStudents = function ListInput() {
                     { label: "CSS", value: "css" },
                     { label: "Javascript", value: "javascript" },
                   ]}
+                  selectedValues={formValues?.skills || []}
                 />
               </div>
               <div style={{ maxWidth: "75%", marginTop: "18px" }}>
                 <Dropdown
                   name={"course"}
                   label={"Course"}
+                  selectedValue={formValues?.course || ""}
                   handleInputChange={handleInputChange}
                   options={[
                     { label: "React", value: "react" },

@@ -1,4 +1,10 @@
-const RadioButton = ({ options, name, label, handleInputChange }) => {
+const RadioButton = ({
+  options,
+  name,
+  label,
+  handleInputChange,
+  selectedValue,
+}) => {
   return (
     <>
       <div>
@@ -17,6 +23,7 @@ const RadioButton = ({ options, name, label, handleInputChange }) => {
               <input
                 id={opt.value}
                 value={opt.value}
+                checked={opt.value === selectedValue}
                 type="radio"
                 name={name}
                 onChange={handleInputChange}
