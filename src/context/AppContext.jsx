@@ -40,6 +40,14 @@ const reducer = (state, action) => {
         students: [...state.students, action.payload],
       };
 
+    case "edit":
+      return {
+        ...state,
+        students: state.students?.map((student) =>
+          student?.id === action.payload?.id ? action.payload : student
+        ),
+      };
+
     case "delete":
       return {
         ...state,
@@ -55,7 +63,6 @@ const reducer = (state, action) => {
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
 
   return (
     <AppContext.Provider

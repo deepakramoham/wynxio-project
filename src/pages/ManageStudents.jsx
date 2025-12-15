@@ -27,7 +27,10 @@ const ManageStudents = function ListInput() {
   const [tableData, setTableData] = useState([]);
 
   const handleEdit = (studentId) => {
-    console.log(studentId);
+    setModalOpen(true);
+    // const updateStudent = students?.find((std) => std?.id === studentId);
+    // setFormValues(updateStudent)
+    setFormValues(students?.find((std) => std?.id === studentId));
   };
 
   const handleDelete = (studentId) => {
@@ -51,13 +54,13 @@ const ManageStudents = function ListInput() {
           <>
             <div className="d-flex gap-4">
               <button
-                className="btn btn-sm btn-warning"
+                className="btn btn-sm btn-secondary"
                 onClick={() => handleEdit(student?.id)}
               >
                 Edit
               </button>
               <button
-                className="btn btn-sm btn-danger"
+                className="btn btn-sm btn-danger "
                 onClick={() => handleDelete(student?.id)}
               >
                 Delete
@@ -140,11 +143,15 @@ const ManageStudents = function ListInput() {
 
   const handleSave = () => {
     if (validateFormValues()) {
-      const newStudent = { ...formValues, id: crypto.randomUUID() };
-      dispatch({
-        type: "add",
-        payload: newStudent,
-      });
+      if (formValues?.id) {
+        dispatch({ type: "edit", payload: formValues });
+      } else {
+        const newStudent = { ...formValues, id: crypto.randomUUID() };
+        dispatch({
+          type: "add",
+          payload: newStudent,
+        });
+      }
       resetStates();
     }
   };
