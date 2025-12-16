@@ -1,16 +1,39 @@
+import { useEffect, useState } from "react";
 import Input from "../Input/Input";
 import { IoAdd } from "react-icons/io5";
 const Table = ({ tableColumns, data, toggleModal }) => {
+  const [search, setSearch] = useState("");
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    const ftData = data.filter((row) =>
+      tableColumns?.some((col) => {
+        const value = row[col.accessor];
+
+        return (
+          value && value.toString().toLowerCase().includes(search.toLowerCase())
+        );
+      })
+    );
+
+    setFilteredData(ftData);
+  }, [data, search, tableColumns]);
+
   return (
     <>
       <div className="d-flex gap-5 align-items-start">
         <div style={{ flex: "1" }}>
           <Input
             name={"search"}
-            value={""}
+            value={search}
             placeholder="Search . . ."
             type="text"
-            onChange={() => {}}
+            onChange={handleSearch}
             style={{ maxWidth: "350px" }}
           />
         </div>
@@ -33,15 +56,21 @@ const Table = ({ tableColumns, data, toggleModal }) => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((student, index) => (
-            <tr key={index}>
-              {tableColumns.map((col, index) => (
-                <td key={index}>
-                  {col?.render ? col?.render(student) : student[col.accessor]}
-                </td>
-              ))}
+          {filteredData?.length > 0 ? (
+            filteredData?.map((student, index) => (
+              <tr key={index}>
+                {tableColumns.map((col, index) => (
+                  <td key={index}>
+                    {col?.render ? col?.render(student) : student[col.accessor]}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>No data found</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </>
