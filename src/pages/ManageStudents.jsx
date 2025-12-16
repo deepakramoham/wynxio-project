@@ -159,7 +159,7 @@ const ManageStudents = function ListInput() {
   console.log(formValues);
 
   return (
-    <>
+    <main className="main">
       {modalOpen && (
         <Modal
           modalOpen={modalOpen}
@@ -243,7 +243,7 @@ const ManageStudents = function ListInput() {
           toggleModal={toggleModal}
         />
       </div>
-    </>
+    </main>
   );
 };
 
