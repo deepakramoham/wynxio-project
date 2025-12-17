@@ -4,15 +4,17 @@ import Home from "./pages/Home";
 import SideBar from "./components/Sidebar";
 import { useState } from "react";
 import Header from "./components/Header";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [menu, setMenu] = useState("home");
   return (
     <>
       <SideBar menu={menu} setMenu={setMenu} />
-      <Header menu={menu}/>
+      <Header menu={menu} />
+      <Outlet />
 
-      {menu === "home" ? (
+      {/* {menu === "home" ? (
         <Home />
       ) : menu === "students" ? (
         <ManageStudents />
@@ -20,7 +22,7 @@ function App() {
         <ManageCourses />
       ) : (
         <div>No page found</div>
-      )}
+      )} */}
     </>
   );
 }

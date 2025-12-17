@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const SideBar = ({ menu, setMenu }) => {
   return (
     <aside className="sidebar">
@@ -5,16 +6,17 @@ const SideBar = ({ menu, setMenu }) => {
         className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
         style={{ position: "sticky", top: "0px", minHeight: "100vh" }}
       >
-        <a
-          href="/"
+        <Link
+          to="/"
           className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
         >
           <span className="fs-4">Sidebar</span>
-        </a>
+        </Link>
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
-            <div
+            <Link
+              to="/home"
               className={`nav-link text-white  ${
                 menu === "home" ? "active" : ""
               }`}
@@ -22,27 +24,29 @@ const SideBar = ({ menu, setMenu }) => {
               onClick={() => setMenu("home")}
             >
               Home
-            </div>
+            </Link>
           </li>
           <li>
-            <div
+            <Link
+              to="/students"
               className={`nav-link text-white ${
                 menu === "students" ? "active" : ""
               }`}
               onClick={() => setMenu("students")}
             >
               Students
-            </div>
+            </Link>
           </li>
           <li>
-            <div
+            <Link
+              to="/courses"
               className={`nav-link text-white ${
                 menu === "courses" ? "active" : ""
               }`}
               onClick={() => setMenu("courses")}
             >
               Courses
-            </div>
+            </Link>
           </li>
         </ul>
       </div>
