@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-const SideBar = ({ menu, setMenu }) => {
+import { useLocation } from "react-router-dom";
+
+const SideBar = () => {
+  const location = useLocation();
+  const menu = location.pathname.split("/").pop();
+  // console.log(location.pathname.split("/"));
+
   return (
     <aside className="sidebar">
       <div
@@ -21,7 +27,6 @@ const SideBar = ({ menu, setMenu }) => {
                 menu === "home" ? "active" : ""
               }`}
               aria-current="page"
-              onClick={() => setMenu("home")}
             >
               Home
             </Link>
@@ -32,7 +37,6 @@ const SideBar = ({ menu, setMenu }) => {
               className={`nav-link text-white ${
                 menu === "students" ? "active" : ""
               }`}
-              onClick={() => setMenu("students")}
             >
               Students
             </Link>
@@ -43,7 +47,6 @@ const SideBar = ({ menu, setMenu }) => {
               className={`nav-link text-white ${
                 menu === "courses" ? "active" : ""
               }`}
-              onClick={() => setMenu("courses")}
             >
               Courses
             </Link>
