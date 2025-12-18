@@ -8,11 +8,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import ManageStudents from "./pages/ManageStudents.jsx";
 import ManageCourses from "./pages/ManageCourses.jsx";
+import RouteError from "./pages/RouteError.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <RouteError />,
     children: [
       { index: true, element: <Home /> },
       { path: "/home", element: <Home /> },
