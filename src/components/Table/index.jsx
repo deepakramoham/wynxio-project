@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Input from "../Input/Input";
 import { IoAdd } from "react-icons/io5";
-const Table = ({ tableColumns, data, toggleModal }) => {
+const Table = ({ tableColumns, data, onAddClick }) => {
   const [search, setSearch] = useState("");
 
   const [filteredData, setFilteredData] = useState([]);
@@ -41,7 +41,7 @@ const Table = ({ tableColumns, data, toggleModal }) => {
           <button
             className="btn btn-success px-4"
             type="submit"
-            onClick={toggleModal}
+            onClick={onAddClick}
           >
             <IoAdd className="add-icon" />
           </button>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Input = React.memo((props) => {
   return (
-    <div className="">
+    <div style={{ maxWidth: "75%" }}>
       {props?.label ? (
         <div>
           <label htmlFor={props?.name}>
