@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAppContext from "../hooks/useAppContext";
 import RadioButton from "../components/RadioButton";
 import Checkbox from "../components/Checkbox";
@@ -8,6 +8,15 @@ import Input from "../components/Input/Input";
 
 const Add_Update_Students = () => {
   const nameRef = useRef();
+
+  // const location = useLocation();
+  // const state = location?.state;
+  // const student = state?.student;
+  // console.log(location);
+
+  const { state } = useLocation();
+  const { student } = state || {};
+
   const navigate = useNavigate();
 
   const { dispatch } = useAppContext();
@@ -21,6 +30,12 @@ const Add_Update_Students = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
+
+  useEffect(() => {
+    if (student) {
+      setFormValues(student);
+    }
+  }, [student]);
 
   const goBack = () => {
     navigate(-1);
