@@ -1,55 +1,52 @@
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
-  const location = useLocation();
-  const menu = location.pathname.split("/").pop();
-  // console.log(location.pathname.split("/"));
-
   return (
     <aside className="sidebar">
       <div
         className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
         style={{ position: "sticky", top: "0px", minHeight: "100vh" }}
       >
-        <Link
-          to="/"
+        <NavLink
+          to="/home"
           className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
         >
           <span className="fs-4">Sidebar</span>
-        </Link>
+        </NavLink>
         <hr />
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
-            <Link
+            <NavLink
               to="/home"
-              className={`nav-link text-white  ${
-                menu === "home" ? "active" : ""
-              }`}
+              className={({ isActive }) =>
+                `nav-link text-white ${isActive ? "active" : ""}`
+              }
               aria-current="page"
             >
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/students"
-              className={`nav-link text-white ${
-                menu === "students" ? "active" : ""
-              }`}
+              // end
+              className={({ isActive }) =>
+                `nav-link text-white ${isActive ? "active" : ""}`
+              }
             >
               Students
-            </Link>
+            </NavLink>
           </li>
+
           <li>
-            <Link
+            <NavLink
               to="/courses"
-              className={`nav-link text-white ${
-                menu === "courses" ? "active" : ""
-              }`}
+              className={({ isActive }) =>
+                `nav-link text-white ${isActive ? "active" : ""}`
+              }
             >
               Courses
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>
