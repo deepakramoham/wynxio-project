@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAppContext from "../hooks/useAppContext";
 import RadioButton from "../components/RadioButton";
 import Checkbox from "../components/Checkbox";
@@ -8,19 +8,22 @@ import Input from "../components/Input/Input";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
-  const sectionRef = useRef(null);
 
-  // const location = useLocation();
-  // const state = location?.state;
-  // const student = state?.student;
-  // console.log(location);
-
-  const { state, hash } = useLocation();
-  const { student } = state || {};
+  const { studentId } = useParams();
 
   const navigate = useNavigate();
 
-  const { dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
+  const { findStudent } = state;
+
+  useEffect(() => {
+    dispatch({ type: "find", payload: studentId });
+  }, [studentId]);
+
+  useEffect(() => {
+    setFormValues(findStudent);
+  }, [findStudent]);
+  console.log(findStudent);
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -31,20 +34,6 @@ const Add_Update_Students = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
-
-  useEffect(() => {
-    if (student) {
-      setFormValues(student);
-    }
-  }, [student]);
-
-  useEffect(() => {
-    const element = sectionRef.current;
-    console.log(element);
-    if (element) {
-      element.scrollIntoView();
-    }
-  }, [hash]);
 
   const goBack = () => {
     navigate(-1);
@@ -116,8 +105,6 @@ const Add_Update_Students = () => {
       <div
         style={{
           padding: ".5em",
-          minHeight: "200vh",
-          border: "2px solid blue",
         }}
       >
         <div style={{ maxWidth: "75%" }}>
@@ -205,14 +192,6 @@ const Add_Update_Students = () => {
           </div>
         </div>
       </div>
-
-      <section
-        ref={sectionRef}
-        id="student-details"
-        style={{ minHeight: "200vh", border: "2px solid blue" }}
-      >
-        <p>Student Details</p>
-      </section>
     </main>
   );
 };

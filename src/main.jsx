@@ -24,7 +24,10 @@ const router = createBrowserRouter([
         element: <ManageStudents />,
       },
       { path: "/students/add-student", element: <Add_Update_Students /> },
-      { path: "/students/edit-student", element: <Add_Update_Students /> },
+      {
+        path: "/students/edit-student/:studentId/:studentName?",
+        element: <Add_Update_Students />,
+      },
       { path: "/courses", element: <ManageCourses /> },
     ],
   },

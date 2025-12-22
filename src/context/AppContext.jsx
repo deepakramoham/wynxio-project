@@ -30,6 +30,7 @@ const initialState = {
       course: "python",
     },
   ],
+  findStudent: null,
 };
 
 const reducer = (state, action) => {
@@ -53,6 +54,14 @@ const reducer = (state, action) => {
         ...state,
         students: state?.students?.filter(
           (student) => student?.id !== action.payload
+        ),
+      };
+    case "find":
+      console.log(action);
+      return {
+        ...state,
+        findStudent: state?.students?.find(
+          (student) => student?.id === action.payload
         ),
       };
 

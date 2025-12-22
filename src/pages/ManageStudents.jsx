@@ -59,8 +59,7 @@ const ManageStudents = function ListInput() {
   }, [students]);
 
   const handleEdit = (studentId) => {
-    const updateStudent = students?.find((std) => std?.id === studentId);
-    navigate("/students/edit-student#student-details", { state: { student: updateStudent } });
+    navigate(`/students/edit-student/${studentId}`);
   };
 
   const handleDelete = (studentId) => {
