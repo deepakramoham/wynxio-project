@@ -7,14 +7,15 @@ import Dropdown from "../components/Dropdown";
 import Input from "../components/Input/Input";
 
 const Add_Update_Students = () => {
-  const nameRef = useRef();
+  const nameRef = useRef(null);
+  const sectionRef = useRef(null);
 
   // const location = useLocation();
   // const state = location?.state;
   // const student = state?.student;
   // console.log(location);
 
-  const { state } = useLocation();
+  const { state, hash } = useLocation();
   const { student } = state || {};
 
   const navigate = useNavigate();
@@ -36,6 +37,14 @@ const Add_Update_Students = () => {
       setFormValues(student);
     }
   }, [student]);
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    console.log(element);
+    if (element) {
+      element.scrollIntoView();
+    }
+  }, [hash]);
 
   const goBack = () => {
     navigate(-1);
@@ -104,7 +113,13 @@ const Add_Update_Students = () => {
   };
   return (
     <main className="main">
-      <div style={{ padding: ".5em" }}>
+      <div
+        style={{
+          padding: ".5em",
+          minHeight: "200vh",
+          border: "2px solid blue",
+        }}
+      >
         <div style={{ maxWidth: "75%" }}>
           <Input
             ref={nameRef}
@@ -190,6 +205,14 @@ const Add_Update_Students = () => {
           </div>
         </div>
       </div>
+
+      <section
+        ref={sectionRef}
+        id="student-details"
+        style={{ minHeight: "200vh", border: "2px solid blue" }}
+      >
+        <p>Student Details</p>
+      </section>
     </main>
   );
 };

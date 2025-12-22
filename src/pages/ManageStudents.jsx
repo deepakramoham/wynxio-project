@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import useAppContext from "../hooks/useAppContext";
 import Table from "../components/Table";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const { state, dispatch } = useAppContext();
   const { students } = state;
@@ -58,7 +60,7 @@ const ManageStudents = function ListInput() {
 
   const handleEdit = (studentId) => {
     const updateStudent = students?.find((std) => std?.id === studentId);
-    navigate("/students/edit-student", { state: { student: updateStudent } });
+    navigate("/students/edit-student#student-details", { state: { student: updateStudent } });
   };
 
   const handleDelete = (studentId) => {
