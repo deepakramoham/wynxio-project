@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import useAppContext from "../hooks/useAppContext";
 import Table from "../components/Table";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  const [searchParams, setSearchParams] = useSearchParams({});
 
   const { state, dispatch } = useAppContext();
-  const { students } = state;
+  const { students, findStudent } = state;
   const [tableData, setTableData] = useState([]);
 
   const tableColumns = [
@@ -58,8 +58,25 @@ const ManageStudents = function ListInput() {
     }
   }, [students]);
 
+  useEffect(() => {
+    if (findStudent) {
+      setSearchParams({
+        id: findStudent?.id,
+        name: findStudent?.name,
+        contact: findStudent?.contact,
+        education: findStudent?.education,
+        course: findStudent?.course,
+        skills: findStudent?.skills.toString(),
+      });
+
+      console.log(findStudent?.skills.toString())
+    }
+  }, [findStudent]);
+
   const handleEdit = (studentId) => {
-    navigate(`/students/edit-student/${studentId}`);
+    // navigate(`/students/edit-student/${studentId}`);
+
+    dispatch({ type: "find", payload: studentId });
   };
 
   const handleDelete = (studentId) => {
