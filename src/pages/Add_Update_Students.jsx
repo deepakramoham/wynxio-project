@@ -1,5 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  // useParams,
+  useSearchParams,
+} from "react-router-dom";
 import useAppContext from "../hooks/useAppContext";
 import RadioButton from "../components/RadioButton";
 import Checkbox from "../components/Checkbox";
@@ -9,21 +14,31 @@ import Input from "../components/Input/Input";
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
 
-  const { studentId } = useParams();
-
+  // const { studentId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { state, dispatch } = useAppContext();
   const { findStudent } = state;
 
+  const id = searchParams.get("id");
+
+  console.log(location);
+  console.log(location.search);
+
   useEffect(() => {
-    dispatch({ type: "find", payload: studentId });
-  }, [studentId]);
+    if (id) {
+      dispatch({ type: "find", payload: id });
+    }
+  }, [id]);
+
+  // useEffect(() => {
+  //   dispatch({ type: "find", payload: studentId });
+  // }, [studentId]);
 
   useEffect(() => {
     setFormValues(findStudent);
   }, [findStudent]);
-  console.log(findStudent);
 
   const [formValues, setFormValues] = useState({
     name: "",

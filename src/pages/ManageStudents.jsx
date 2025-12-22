@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import useAppContext from "../hooks/useAppContext";
 import Table from "../components/Table";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams({});
 
   const { state, dispatch } = useAppContext();
-  const { students, findStudent } = state;
+  const { students } = state;
   const [tableData, setTableData] = useState([]);
 
   const tableColumns = [
@@ -58,25 +56,12 @@ const ManageStudents = function ListInput() {
     }
   }, [students]);
 
-  useEffect(() => {
-    if (findStudent) {
-      setSearchParams({
-        id: findStudent?.id,
-        name: findStudent?.name,
-        contact: findStudent?.contact,
-        education: findStudent?.education,
-        course: findStudent?.course,
-        skills: findStudent?.skills.toString(),
-      });
-
-      console.log(findStudent?.skills.toString())
-    }
-  }, [findStudent]);
-
   const handleEdit = (studentId) => {
     // navigate(`/students/edit-student/${studentId}`);
 
-    dispatch({ type: "find", payload: studentId });
+    navigate(`/students/edit-student?id=${studentId}`);
+    //multiple query params can be passed
+    // navigate(`/students/edit-student?id=${studentId}&name="..."&contact="..."`);
   };
 
   const handleDelete = (studentId) => {
