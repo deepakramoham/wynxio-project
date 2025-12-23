@@ -57,11 +57,7 @@ const ManageStudents = function ListInput() {
   }, [students]);
 
   const handleEdit = (studentId) => {
-    // navigate(`/students/edit-student/${studentId}`);
-
-    navigate(`/students/edit-student?id=${studentId}`);
-    //multiple query params can be passed
-    // navigate(`/students/edit-student?id=${studentId}&name="..."&contact="..."`);
+    navigate(`/students/edit-student?id=${studentId}&action=edit`);
   };
 
   const handleDelete = (studentId) => {
@@ -72,7 +68,7 @@ const ManageStudents = function ListInput() {
   };
 
   const handleAddClick = () => {
-    navigate("/students/add-student");
+    navigate(`/students/add-student`);
   };
 
   return (
