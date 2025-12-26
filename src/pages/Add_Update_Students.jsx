@@ -12,14 +12,16 @@ const Add_Update_Students = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { state, dispatch } = useAppContext();
-  const { findStudent } = state;
+  const {
+    studentState,
+    courseState,
+    dispatchStudent: dispatch,
+  } = useAppContext();
+  const { findStudent } = studentState;
+  const { courses } = courseState;
 
   const id = searchParams.get("id");
   const action = searchParams.get("action");
-
-  console.log(location);
-  console.log(location.search);
 
   useEffect(() => {
     if (id && action === "edit") {
@@ -42,6 +44,17 @@ const Add_Update_Students = () => {
   });
 
   const [formErrors, setFormErrors] = useState({});
+
+  const [courseOptions, setCourseOptions] = useState([]);
+
+  useEffect(() => {
+    const options = courses?.map((course) => ({
+      label: course?.courseTitle,
+      value: course?.id,
+    }));
+
+    setCourseOptions(options);
+  }, [courses]);
 
   const goBack = () => {
     navigate(-1);
@@ -171,11 +184,7 @@ const Add_Update_Students = () => {
             label={"Course"}
             selectedValue={formValues?.course || ""}
             handleInputChange={handleInputChange}
-            options={[
-              { label: "React", value: "react" },
-              { label: "MERN", value: "mern" },
-              { label: "Python", value: "python" },
-            ]}
+            options={courseOptions}
           />
         </div>
 

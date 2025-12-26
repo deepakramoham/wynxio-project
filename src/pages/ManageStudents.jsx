@@ -6,8 +6,13 @@ import { useNavigate } from "react-router-dom";
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
 
-  const { state, dispatch } = useAppContext();
-  const { students } = state;
+  const {
+    studentState,
+    courseState,
+    dispatchStudent: dispatch,
+  } = useAppContext();
+  const { students } = studentState;
+  const { courses } = courseState;
   const [tableData, setTableData] = useState([]);
 
   const tableColumns = [
@@ -50,6 +55,7 @@ const ManageStudents = function ListInput() {
         skills: Array.isArray(student?.skills)
           ? student?.skills?.join(", ")
           : "",
+        course: courses?.find((c) => c.id === student?.course)?.courseTitle,
       }));
 
       setTableData(modifiedDataArray);

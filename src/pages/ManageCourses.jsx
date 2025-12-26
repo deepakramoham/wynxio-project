@@ -1,12 +1,21 @@
 import Table from "../components/Table";
 import Modal from "../components/Modal";
 import Input from "../components/Input/Input";
+import RadioButton from "../components/RadioButton";
 import { useState, useEffect } from "react";
+import useAppContext from "../hooks/useAppContext";
 
 const ManageCourses = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [courseTitle, setCourseTitle] = useState("react");
-  const [courses, setCourses] = useState([]);
+  // const [courseTitle, setCourseTitle] = useState("react");
+  const [courseDetails, setCourseDetails] = useState({
+    courseTitle: "",
+    paidCourse: "",
+  });
+  // const [courses, setCourses] = useState([]);
+
+  const { courseState, dispatchCourse: dispatch } = useAppContext();
+  const { courses } = courseState;
   const [courseArray, setCourseArray] = useState([]);
 
   useEffect(() => {
@@ -14,6 +23,7 @@ const ManageCourses = () => {
       const modifiedDataArray = courses?.map((course, index) => ({
         slNo: index + 1,
         ...course,
+        paidCourse: course?.paidCourse === "no" ? "Free " : "Paid",
         // skills: Array.isArray(student?.skills)
         //   ? student?.skills?.join(", ")
         //   : "",
@@ -23,13 +33,27 @@ const ManageCourses = () => {
     }
   }, [courses]);
 
-  const handleEdit = (courseId) => {};
-  const handleDelete = (courseId) => {};
+  const resetState = () => {
+    setCourseDetails({
+      courseTitle: "",
+      paidCourse: "",
+    });
+    setModalOpen(!modalOpen);
+  };
+
+  const handleEdit = (courseId) => {
+    setModalOpen(true);
+    setCourseDetails(courses?.find((course) => course?.id === courseId));
+  };
+  const handleDelete = (courseId) => {
+    dispatch({ type: "delete-course", payload: courseId });
+  };
 
   const tableColumns = [
     { header: "Sl. No", accessor: "slNo" },
     { header: "Course Title", accessor: "courseTitle" },
-    { header: "Prerequisites", accessor: "prerequisites" },
+    // { header: "Prerequisites", accessor: "prerequisites" },
+    { header: "Paid Course", accessor: "paidCourse" },
 
     {
       header: "Actions",
@@ -57,15 +81,27 @@ const ManageCourses = () => {
   ];
 
   const handleInputChange = (e) => {
-    setCourseTitle(e.target.value);
+    const { name, value } = e.target;
+    setCourseDetails((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    if (courseTitle) {
-      const newCourse = { courseTitle: courseTitle };
-      setCourses((prev) => [...prev, newCourse]);
-      setCourseTitle("");
-      setModalOpen(!modalOpen);
+    if (courseDetails?.courseTitle && courseDetails?.paidCourse) {
+      if (courseDetails?.id) {
+        const updatedCourse = {
+          ...courseDetails,
+        };
+        dispatch({ type: "edit-course", payload: updatedCourse });
+      } else {
+        const newCourse = {
+          id: crypto.randomUUID(),
+          ...courseDetails,
+          // courseTitle: courseDetails?.courseTitle,
+          // paidCourse: courseDetails?.paidCourse,
+        };
+        dispatch({ type: "add-course", payload: newCourse });
+      }
+      resetState();
     }
   };
 
@@ -80,14 +116,29 @@ const ManageCourses = () => {
           modalTitle={"Add Course"}
           modalBody={
             <div className="p-4">
-              <Input
-                name={"courseTitle"}
-                value={courseTitle}
-                onChange={handleInputChange}
-                placeholder="Course Title"
-                error={""}
-                label={"Course Title"}
-              />
+              <div style={{ maxWidth: "75%" }}>
+                <Input
+                  name={"courseTitle"}
+                  value={courseDetails?.courseTitle}
+                  onChange={handleInputChange}
+                  placeholder="Course Title"
+                  error={""}
+                  label={"Course Title"}
+                />
+              </div>
+
+              <div style={{ maxWidth: "75%" }}>
+                <RadioButton
+                  label={"Paid Course"}
+                  name="paidCourse"
+                  options={[
+                    { label: "Yes", value: "yes" },
+                    { label: "No", value: "no" },
+                  ]}
+                  handleInputChange={handleInputChange}
+                  selectedValue={courseDetails?.paidCourse || ""}
+                />
+              </div>
             </div>
           }
           handleSave={handleSubmit}
