@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import useAppContext from "../hooks/useAppContext";
 import Table from "../components/Table";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const studentState = useSelector((state) => state.studentState);
+  const courseState = useSelector((state) => state.courseState);
 
-  const {
-    studentState,
-    courseState,
-    dispatchStudent: dispatch,
-  } = useAppContext();
   const { students } = studentState;
   const { courses } = courseState;
   const [tableData, setTableData] = useState([]);

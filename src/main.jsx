@@ -10,6 +10,8 @@ import ManageStudents from "./pages/ManageStudents.jsx";
 import ManageCourses from "./pages/ManageCourses.jsx";
 import RouteError from "./pages/RouteError.jsx";
 import Add_Update_Students from "./pages/Add_Update_Students.jsx";
+import { Provider } from "react-redux";
+import store from "./redux/store.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,9 +37,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-  <AppProvider>
-    <RouterProvider router={router} />
-  </AppProvider>
+  <Provider store={store}>
+    <AppProvider>
+      <RouterProvider router={router} />
+    </AppProvider>
+  </Provider>
 
   // </StrictMode>,
 );

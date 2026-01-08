@@ -3,7 +3,7 @@ import Modal from "../components/Modal";
 import Input from "../components/Input/Input";
 import RadioButton from "../components/RadioButton";
 import { useState, useEffect } from "react";
-import useAppContext from "../hooks/useAppContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const ManageCourses = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,8 +13,8 @@ const ManageCourses = () => {
     paidCourse: "",
   });
   // const [courses, setCourses] = useState([]);
-
-  const { courseState, dispatchCourse: dispatch } = useAppContext();
+  const dispatch = useDispatch();
+  const courseState = useSelector((state) => state.courseState);
   const { courses } = courseState;
   const [courseArray, setCourseArray] = useState([]);
 
@@ -104,8 +104,6 @@ const ManageCourses = () => {
       resetState();
     }
   };
-
-  console.log(courses);
 
   return (
     <main className="main">

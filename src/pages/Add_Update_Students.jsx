@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import useAppContext from "../hooks/useAppContext";
 import RadioButton from "../components/RadioButton";
 import Checkbox from "../components/Checkbox";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input/Input";
+import { useDispatch, useSelector } from "react-redux";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
@@ -12,11 +12,10 @@ const Add_Update_Students = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    studentState,
-    courseState,
-    dispatchStudent: dispatch,
-  } = useAppContext();
+  const dispatch = useDispatch();
+  const studentState = useSelector((state) => state.studentState);
+  const courseState = useSelector((state) => state.courseState);
+
   const { findStudent } = studentState;
   const { courses } = courseState;
 
