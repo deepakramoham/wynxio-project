@@ -1,35 +1,13 @@
 const initialStudentState = {
-  students: [
-    {
-      id: "jsh",
-      name: "Jinshi",
-      contact: "123",
-      education: "non-tech",
-      skills: ["html", "css"],
-      course: "react",
-    },
-    {
-      id: "uma",
-      name: "Uma",
-      contact: "1234",
-      education: "tech",
-      skills: ["html", "css", "javascript"],
-      course: "mern",
-    },
-    {
-      id: "dpk",
-      name: "Deepak",
-      contact: "12345",
-      education: "non-tech",
-      skills: ["html"],
-      course: "python",
-    },
-  ],
+  students: [],
   findStudent: null,
 };
 
 const studentReducer = (studentState = initialStudentState, action) => {
   switch (action.type) {
+    case "get-students": {
+      return { ...studentState, students: action.payload };
+    }
     case "add":
       return {
         ...studentState,

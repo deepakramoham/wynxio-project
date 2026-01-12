@@ -7,6 +7,11 @@ const initialCourseState = {
 
 const courseReducer = (courseState =initialCourseState, action) => {
   switch (action.type) {
+    case "add-courses-on-load":
+      return {
+        ...courseState,
+        courses: action.payload,
+      };
     case "add-course":
       return {
         ...courseState,

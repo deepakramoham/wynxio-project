@@ -19,6 +19,68 @@ const ManageCourses = () => {
   const [courseArray, setCourseArray] = useState([]);
 
   useEffect(() => {
+    const getCourseData = async () => {
+      try {
+        const response = await fetch("http://localhost:3500/courses");
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+        const data = await response.json();
+        if (data) {
+          dispatch({ type: "add-courses-on-load", payload: data });
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    getCourseData();
+  }, []);
+
+  const postCourseData = async (courseData) => {
+    const response = await fetch("http://localhost:3500/courses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(courseData),
+    });
+    console.log(response);
+    const result = await response.json();
+    dispatch({ type: "add-course", payload: result });
+    console.log(result);
+  };
+
+  const updateCourseData = async (courseData) => {
+    const id = courseData?.id;
+    const url = "http://localhost:3500/courses/" + id;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(courseData),
+    });
+    console.log(response);
+    const result = await response.json();
+    dispatch({ type: "edit-course", payload: result });
+    console.log(result);
+  };
+
+  const deleteCourseData = async (id) => {
+    const response = await fetch(`http://localhost:3500/courses/${id}`, {
+      method: "DELETE",
+    });
+    console.log(response);
+    const result = await response.json();
+    if (result) {
+      dispatch({ type: "delete-course", payload: result?.id });
+    }
+
+    console.log(result);
+  };
+
+  useEffect(() => {
     if (Array.isArray(courses)) {
       const modifiedDataArray = courses?.map((course, index) => ({
         slNo: index + 1,
@@ -46,7 +108,7 @@ const ManageCourses = () => {
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
-    dispatch({ type: "delete-course", payload: courseId });
+    deleteCourseData(courseId);
   };
 
   const tableColumns = [
@@ -88,18 +150,9 @@ const ManageCourses = () => {
   const handleSubmit = () => {
     if (courseDetails?.courseTitle && courseDetails?.paidCourse) {
       if (courseDetails?.id) {
-        const updatedCourse = {
-          ...courseDetails,
-        };
-        dispatch({ type: "edit-course", payload: updatedCourse });
+        updateCourseData(courseDetails);
       } else {
-        const newCourse = {
-          id: crypto.randomUUID(),
-          ...courseDetails,
-          // courseTitle: courseDetails?.courseTitle,
-          // paidCourse: courseDetails?.paidCourse,
-        };
-        dispatch({ type: "add-course", payload: newCourse });
+        postCourseData(courseDetails);
       }
       resetState();
     }

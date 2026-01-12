@@ -1,0 +1,15 @@
+{
+  "students": [],
+  "courses": [
+    {
+      "id": "8d33",
+      "courseTitle": "HTML",
+      "paidCourse": "no"
+    },
+    {
+      "id": "84c5",
+      "courseTitle": "CSS",
+      "paidCourse": "no"
+    }
+  ]
+}

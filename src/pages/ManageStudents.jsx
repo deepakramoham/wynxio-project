@@ -6,7 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
+  useEffect(() => {
+    const getStudentsData = async () => {
+      const response = await fetch("http://localhost:3500/students");
+      const data = await response.json();
+      dispatch({ type: "get-students", payload: data });
+    };
+    getStudentsData();
+  }, []);
+
   const studentState = useSelector((state) => state.studentState);
   const courseState = useSelector((state) => state.courseState);
 
