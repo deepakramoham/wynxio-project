@@ -1,38 +1,87 @@
-
-
 const initialCourseState = {
   courses: [],
+  loading: false,
+  error: null,
 };
 
-
-const courseReducer = (courseState =initialCourseState, action) => {
+const courseReducer = (courseState = initialCourseState, action) => {
   switch (action.type) {
-    case "add-courses-on-load":
+    case "GET_COURSE_DATA_REQUEST":
+      return {
+        ...courseState,
+        loading: true,
+      };
+    case "GET_COURSE_DATA_SUCCESS":
       return {
         ...courseState,
         courses: action.payload,
+        loading: false,
+        error: null,
       };
-    case "add-course":
+    case "GET_COURSE_DATA_FAILED":
+      return {
+        ...courseState,
+        courses: [],
+        loading: false,
+        error: action.payload,
+      };
+    case "POST_COURSE_DATA_REQUEST":
+      return {
+        ...courseState,
+        loading: true,
+        error: null,
+      };
+    case "POST_COURSE_DATA_SUCCESS":
       return {
         ...courseState,
         courses: [...courseState?.courses, action.payload],
+        loading: false,
       };
-
-    case "edit-course":
-      const { payload } = action;
+    case "POST_COURSE_DATA_FAILED":
+      return {
+        ...courseState,
+        loading: false,
+        error: action.payload,
+      };
+    case "UPDATE_COURSE_DATA_REQUEST":
+      return {
+        ...courseState,
+        loading: true,
+        error: null,
+      };
+    case "UPDATE_COURSE_DATA_SUCCESS":
       return {
         ...courseState,
         courses: courseState?.courses?.map((course) =>
-          course?.id === payload?.id ? payload : course
+          course?.id === action.payload?.id ? action.payload : course
         ),
+        loading: false,
       };
-
-    case "delete-course":
+    case "UPDATE_COURSE_DATA_FAILED":
+      return {
+        ...courseState,
+        loading: false,
+        error: action.payload,
+      };
+    case "DELETE_COURSE_DATA_REQUEST":
+      return {
+        ...courseState,
+        loading: true,
+        error: null,
+      };
+    case "DELETE_COURSE_DATA_SUCCESS":
       return {
         ...courseState,
         courses: courseState?.courses?.filter(
           (course) => course?.id !== action.payload
         ),
+        loading: false,
+      };
+    case "DELETE_COURSE_DATA_FAILED":
+      return {
+        ...courseState,
+        loading: false,
+        error: action.payload,
       };
 
     default:

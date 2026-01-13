@@ -6,6 +6,7 @@ const Modal = ({
   modalTitle,
   modalBody,
   handleSave,
+  loading,
 }) => {
   return (
     <div className={styles.modal}>
@@ -23,8 +24,9 @@ const Modal = ({
         <div className={styles["modal-footer"]}>
           <div>
             <button
+              disabled={loading}
               type="button"
-              className="btn btn-primary"
+              className={`btn btn-primary ${loading ? "opacity:0.5" : ""}`}
               onClick={handleSave}
             >
               Save

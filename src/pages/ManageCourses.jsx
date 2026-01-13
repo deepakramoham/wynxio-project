@@ -4,6 +4,12 @@ import Input from "../components/Input/Input";
 import RadioButton from "../components/RadioButton";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getCourseData,
+  postCourseData,
+  updateCourseData,
+  deleteCourseData,
+} from "../api/coursesApi";
 
 const ManageCourses = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,70 +21,13 @@ const ManageCourses = () => {
   // const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
-  const { courses } = courseState;
+  const { courses, loading, error } = courseState;
   const [courseArray, setCourseArray] = useState([]);
+  // console.log(error, "error");
 
   useEffect(() => {
-    const getCourseData = async () => {
-      try {
-        const response = await fetch("http://localhost:3500/courses");
-        if (!response.ok) {
-          throw new Error("Request failed");
-        }
-        const data = await response.json();
-        if (data) {
-          dispatch({ type: "add-courses-on-load", payload: data });
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    getCourseData();
+    getCourseData(dispatch);
   }, []);
-
-  const postCourseData = async (courseData) => {
-    const response = await fetch("http://localhost:3500/courses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(courseData),
-    });
-    console.log(response);
-    const result = await response.json();
-    dispatch({ type: "add-course", payload: result });
-    console.log(result);
-  };
-
-  const updateCourseData = async (courseData) => {
-    const id = courseData?.id;
-    const url = "http://localhost:3500/courses/" + id;
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(courseData),
-    });
-    console.log(response);
-    const result = await response.json();
-    dispatch({ type: "edit-course", payload: result });
-    console.log(result);
-  };
-
-  const deleteCourseData = async (id) => {
-    const response = await fetch(`http://localhost:3500/courses/${id}`, {
-      method: "DELETE",
-    });
-    console.log(response);
-    const result = await response.json();
-    if (result) {
-      dispatch({ type: "delete-course", payload: result?.id });
-    }
-
-    console.log(result);
-  };
 
   useEffect(() => {
     if (Array.isArray(courses)) {
@@ -108,7 +57,7 @@ const ManageCourses = () => {
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
-    deleteCourseData(courseId);
+    deleteCourseData(dispatch, courseId);
   };
 
   const tableColumns = [
@@ -150,9 +99,9 @@ const ManageCourses = () => {
   const handleSubmit = () => {
     if (courseDetails?.courseTitle && courseDetails?.paidCourse) {
       if (courseDetails?.id) {
-        updateCourseData(courseDetails);
+        updateCourseData(dispatch, courseDetails);
       } else {
-        postCourseData(courseDetails);
+        postCourseData(dispatch, courseDetails);
       }
       resetState();
     }
@@ -162,6 +111,7 @@ const ManageCourses = () => {
     <main className="main">
       {modalOpen && (
         <Modal
+          loading={loading}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           modalTitle={"Add Course"}
@@ -195,12 +145,15 @@ const ManageCourses = () => {
           handleSave={handleSubmit}
         />
       )}
-
-      <Table
-        tableColumns={tableColumns}
-        data={courseArray}
-        onAddClick={() => setModalOpen(!modalOpen)}
-      />
+      {loading ? (
+        <p>loading</p>
+      ) : (
+        <Table
+          tableColumns={tableColumns}
+          data={courseArray}
+          onAddClick={() => setModalOpen(!modalOpen)}
+        />
+      )}
     </main>
   );
 };
