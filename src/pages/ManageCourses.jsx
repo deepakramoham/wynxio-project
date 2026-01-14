@@ -9,16 +9,14 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-} from "../api/coursesApi";
+} from "../redux/actions/coursesActions";
 
 const ManageCourses = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  // const [courseTitle, setCourseTitle] = useState("react");
   const [courseDetails, setCourseDetails] = useState({
     courseTitle: "",
     paidCourse: "",
   });
-  // const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
   const { courses, loading, error } = courseState;
@@ -26,7 +24,7 @@ const ManageCourses = () => {
   // console.log(error, "error");
 
   useEffect(() => {
-    getCourseData(dispatch);
+    dispatch(getCourseData());
   }, []);
 
   useEffect(() => {
@@ -57,7 +55,7 @@ const ManageCourses = () => {
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
-    deleteCourseData(dispatch, courseId);
+    dispatch(deleteCourseData(courseId));
   };
 
   const tableColumns = [
@@ -99,9 +97,9 @@ const ManageCourses = () => {
   const handleSubmit = () => {
     if (courseDetails?.courseTitle && courseDetails?.paidCourse) {
       if (courseDetails?.id) {
-        updateCourseData(dispatch, courseDetails);
+        dispatch(updateCourseData(courseDetails));
       } else {
-        postCourseData(dispatch, courseDetails);
+        dispatch(postCourseData(courseDetails));
       }
       resetState();
     }
