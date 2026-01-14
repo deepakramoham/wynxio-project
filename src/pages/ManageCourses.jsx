@@ -12,14 +12,13 @@ import {
 } from "../redux/actions/coursesActions";
 
 const ManageCourses = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [courseDetails, setCourseDetails] = useState({
     courseTitle: "",
     paidCourse: "",
   });
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
-  const { courses, loading, error } = courseState;
+  const { courses, loading, modalOpen, error } = courseState;
   const [courseArray, setCourseArray] = useState([]);
   // console.log(error, "error");
 
@@ -47,11 +46,11 @@ const ManageCourses = () => {
       courseTitle: "",
       paidCourse: "",
     });
-    setModalOpen(!modalOpen);
+   
   };
 
   const handleEdit = (courseId) => {
-    setModalOpen(true);
+    dispatch({ type: "OPEN_MODAL" });
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
@@ -111,7 +110,6 @@ const ManageCourses = () => {
         <Modal
           loading={loading}
           modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
           modalTitle={"Add Course"}
           modalBody={
             <div className="p-4">
@@ -141,6 +139,7 @@ const ManageCourses = () => {
             </div>
           }
           handleSave={handleSubmit}
+          handleClose={() => dispatch({ type: "CLOSE_MODAL" })}
         />
       )}
       {loading ? (
@@ -149,7 +148,7 @@ const ManageCourses = () => {
         <Table
           tableColumns={tableColumns}
           data={courseArray}
-          onAddClick={() => setModalOpen(!modalOpen)}
+          onAddClick={() => dispatch({ type: "OPEN_MODAL" })}
         />
       )}
     </main>

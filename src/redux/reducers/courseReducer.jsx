@@ -2,10 +2,21 @@ const initialCourseState = {
   courses: [],
   loading: false,
   error: null,
+  modalOpen: false,
 };
 
 const courseReducer = (courseState = initialCourseState, action) => {
   switch (action.type) {
+    case "OPEN_MODAL":
+      return {
+        ...courseState,
+        modalOpen: true,
+      };
+    case "CLOSE_MODAL":
+      return {
+        ...courseState,
+        modalOpen: false,
+      };
     case "GET_COURSE_DATA_REQUEST":
       return {
         ...courseState,
@@ -36,6 +47,7 @@ const courseReducer = (courseState = initialCourseState, action) => {
         ...courseState,
         courses: [...courseState?.courses, action.payload],
         loading: false,
+        modalOpen: false,
       };
     case "POST_COURSE_DATA_FAILED":
       return {
@@ -56,6 +68,7 @@ const courseReducer = (courseState = initialCourseState, action) => {
           course?.id === action.payload?.id ? action.payload : course
         ),
         loading: false,
+        modalOpen: false,
       };
     case "UPDATE_COURSE_DATA_FAILED":
       return {

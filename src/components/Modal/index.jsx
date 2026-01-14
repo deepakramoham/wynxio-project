@@ -1,13 +1,6 @@
 import styles from "./Modal.module.css";
 // import { IoClose } from "react-icons/io5";
-const Modal = ({
-  modalOpen,
-  setModalOpen,
-  modalTitle,
-  modalBody,
-  handleSave,
-  loading,
-}) => {
+const Modal = ({ handleClose, modalTitle, modalBody, handleSave, loading }) => {
   return (
     <div className={styles.modal}>
       <div className={styles["modal-content"]}>
@@ -15,9 +8,7 @@ const Modal = ({
           <div className={styles["modal-title"]}>{modalTitle}</div>
           {/* <IoClose
             className={styles.close}
-            onClick={() => {
-              setModalOpen(!modalOpen);
-            }}
+            onClick={handleClose}
           /> */}
         </div>
         <div className={styles["modal-body"]}>{modalBody}</div>
@@ -36,9 +27,7 @@ const Modal = ({
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => {
-                setModalOpen(!modalOpen);
-              }}
+              onClick={handleClose}
             >
               Close
             </button>
