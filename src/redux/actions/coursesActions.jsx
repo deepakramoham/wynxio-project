@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const baseUrl = "http://localhost:3500";
+import axiosInstance from "../../api/axiosInstance";
 
 export const getCourseData = () => {
   return async (dispatch) => {
@@ -8,7 +6,7 @@ export const getCourseData = () => {
       dispatch({ type: "GET_COURSE_DATA_REQUEST" });
       //simulating network delay 2seconds
       // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
-      const response = await axios.get(`${baseUrl}/courses`);
+      const response = await axiosInstance.get(`/courses`);
       if (response.data) {
         dispatch({ type: "GET_COURSE_DATA_SUCCESS", payload: response?.data });
       }
@@ -25,7 +23,7 @@ export const postCourseData = (courseData) => {
       dispatch({ type: "POST_COURSE_DATA_REQUEST" });
       //simulating network delay 2seconds
       // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
-      const response = await axios.post(`${baseUrl}/courses`, courseData);
+      const response = await axiosInstance.post(`/courses`, courseData);
       if (response.data) {
         dispatch({ type: "POST_COURSE_DATA_SUCCESS", payload: response?.data });
       }
@@ -39,8 +37,8 @@ export const updateCourseData = (courseData) => {
   return async (dispatch) => {
     try {
       dispatch({ type: "UPDATE_COURSE_DATA_REQUEST" });
-      const response = await axios.put(
-        `${baseUrl}/courses/${courseData?.id}`,
+      const response = await axiosInstance.put(
+        `/courses/${courseData?.id}`,
         courseData
       );
       if (response.data) {
@@ -59,7 +57,7 @@ export const deleteCourseData = (id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: "DELETE_COURSE_DATA_REQUEST" });
-      const response = await axios.delete(`${baseUrl}/courses/${id}`);
+      const response = await axiosInstance.delete(`/courses/${id}`);
       if (response.data) {
         dispatch({
           type: "DELETE_COURSE_DATA_SUCCESS",
