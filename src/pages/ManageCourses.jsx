@@ -23,6 +23,15 @@ const ManageCourses = () => {
   // console.log(error, "error");
 
   useEffect(() => {
+    if (!modalOpen) {
+      setCourseDetails({
+        courseTitle: "",
+        paidCourse: "",
+      });
+    }
+  }, [modalOpen]);
+
+  useEffect(() => {
     dispatch(getCourseData());
   }, []);
 
@@ -40,14 +49,6 @@ const ManageCourses = () => {
       setCourseArray(modifiedDataArray);
     }
   }, [courses]);
-
-  const resetState = () => {
-    setCourseDetails({
-      courseTitle: "",
-      paidCourse: "",
-    });
-   
-  };
 
   const handleEdit = (courseId) => {
     dispatch({ type: "OPEN_MODAL" });
@@ -100,8 +101,11 @@ const ManageCourses = () => {
       } else {
         dispatch(postCourseData(courseDetails));
       }
-      resetState();
     }
+  };
+
+  const handleClose = () => {
+    dispatch({ type: "CLOSE_MODAL" });
   };
 
   return (
@@ -139,7 +143,7 @@ const ManageCourses = () => {
             </div>
           }
           handleSave={handleSubmit}
-          handleClose={() => dispatch({ type: "CLOSE_MODAL" })}
+          handleClose={handleClose}
         />
       )}
       {loading ? (
