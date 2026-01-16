@@ -5,7 +5,7 @@ export const getCourseData = () => {
     try {
       dispatch({ type: "GET_COURSE_DATA_REQUEST" });
       //simulating network delay 2seconds
-      // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+      await new Promise((resolve, reject) => setTimeout(resolve, 2000));
       const response = await axiosInstance.get(`/courses`);
       if (response.data) {
         dispatch({ type: "GET_COURSE_DATA_SUCCESS", payload: response?.data });
@@ -22,7 +22,7 @@ export const postCourseData = (courseData) => {
     try {
       dispatch({ type: "POST_COURSE_DATA_REQUEST" });
       //simulating network delay 2seconds
-      // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+      await new Promise((resolve, reject) => setTimeout(resolve, 5000));
       const response = await axiosInstance.post(`/courses`, courseData);
       if (response.data) {
         dispatch({ type: "POST_COURSE_DATA_SUCCESS", payload: response?.data });

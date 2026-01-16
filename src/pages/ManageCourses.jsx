@@ -10,6 +10,7 @@ import {
   updateCourseData,
   deleteCourseData,
 } from "../redux/actions/coursesActions";
+import Loading from "../components/Loading";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -142,19 +143,24 @@ const ManageCourses = () => {
               </div>
             </div>
           }
+          SaveButtonText={
+            loading ? (
+              "Saving..."
+            ) : (
+              "Save"
+            )
+          }
+          CloseButtonText={loading ? "Cancel" : "Close"}
           handleSave={handleSubmit}
           handleClose={handleClose}
         />
       )}
-      {loading ? (
-        <p>loading</p>
-      ) : (
-        <Table
-          tableColumns={tableColumns}
-          data={courseArray}
-          onAddClick={() => dispatch({ type: "OPEN_MODAL" })}
-        />
-      )}
+      {loading && <Loading />}
+      <Table
+        tableColumns={tableColumns}
+        data={courseArray}
+        onAddClick={() => dispatch({ type: "OPEN_MODAL" })}
+      />
     </main>
   );
 };
