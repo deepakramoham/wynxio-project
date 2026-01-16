@@ -36,9 +36,11 @@ const ManageCourses = () => {
   useEffect(() => {
     // dispatch(getCourseData());
 
-    let getController = new AbortController();
+    let getController;
     const getCourseData = async () => {
       try {
+        if (getController) getController.abort();
+        getController = new AbortController();
         dispatch({ type: "GET_COURSE_DATA_REQUEST" });
         //simulating network delay 2seconds
         await new Promise((resolve, reject) => setTimeout(resolve, 2000));

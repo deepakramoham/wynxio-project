@@ -32,7 +32,6 @@ const courseReducer = (courseState = initialCourseState, action) => {
     case "GET_COURSE_DATA_FAILED":
       return {
         ...courseState,
-        courses: [],
         loading: false,
         error: action.payload,
       };
