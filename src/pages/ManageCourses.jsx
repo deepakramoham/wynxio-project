@@ -11,6 +11,7 @@ import {
   deleteCourseData,
 } from "../redux/actions/coursesActions";
 import Loading from "../components/Loading";
+import axiosInstance from "../api/axiosInstance";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -33,7 +34,34 @@ const ManageCourses = () => {
   }, [modalOpen]);
 
   useEffect(() => {
-    dispatch(getCourseData());
+    // dispatch(getCourseData());
+
+    let getController = new AbortController();
+    const getCourseData = async () => {
+      try {
+        dispatch({ type: "GET_COURSE_DATA_REQUEST" });
+        //simulating network delay 2seconds
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+        const response = await axiosInstance.get(`/courses`, {
+          signal: getController.signal,
+        });
+        if (response.data) {
+          dispatch({
+            type: "GET_COURSE_DATA_SUCCESS",
+            payload: response?.data,
+          });
+        }
+      } catch (error) {
+        console.error(error.message);
+        dispatch({ type: "GET_COURSE_DATA_FAILED", payload: error });
+      }
+    };
+
+    getCourseData();
+
+    return () => {
+      getController.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -143,13 +171,7 @@ const ManageCourses = () => {
               </div>
             </div>
           }
-          SaveButtonText={
-            loading ? (
-              "Saving..."
-            ) : (
-              "Save"
-            )
-          }
+          SaveButtonText={loading ? "Saving..." : "Save"}
           CloseButtonText={loading ? "Cancel" : "Close"}
           handleSave={handleSubmit}
           handleClose={handleClose}
