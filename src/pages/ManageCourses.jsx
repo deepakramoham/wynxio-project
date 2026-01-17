@@ -9,9 +9,12 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
+  abortPostCourseData,
+  abortUpdateCourseData,
+  abortGetCourseData,
 } from "../redux/actions/coursesActions";
 import Loading from "../components/Loading";
-import axiosInstance from "../api/axiosInstance";
+
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -34,36 +37,10 @@ const ManageCourses = () => {
   }, [modalOpen]);
 
   useEffect(() => {
-    // dispatch(getCourseData());
-
-    let getController;
-    const getCourseData = async () => {
-      try {
-        if (getController) getController.abort();
-        getController = new AbortController();
-        dispatch({ type: "GET_COURSE_DATA_REQUEST" });
-        //simulating network delay 2seconds
-        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
-        const response = await axiosInstance.get(`/courses`, {
-          signal: getController.signal,
-        });
-        if (response.data) {
-          dispatch({
-            type: "GET_COURSE_DATA_SUCCESS",
-            payload: response?.data,
-          });
-        }
-      } catch (error) {
-        console.error(error.message);
-        dispatch({ type: "GET_COURSE_DATA_FAILED", payload: error });
-      }
-    };
-
-    getCourseData();
-
-    return () => {
-      getController.abort();
-    };
+    dispatch(getCourseData());
+    return ()=>{
+      abortGetCourseData();
+    }
   }, []);
 
   useEffect(() => {
@@ -137,6 +114,8 @@ const ManageCourses = () => {
 
   const handleClose = () => {
     dispatch({ type: "CLOSE_MODAL" });
+    abortPostCourseData();
+    abortUpdateCourseData();
   };
 
   return (
