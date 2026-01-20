@@ -1,5 +1,5 @@
-import studentReducer from "./studentReducer";
-import courseReducer from "./courseReducer";
+import courseReducer from "./courseSlice";
+import studentReducer from "../reducers/studentReducer"; 
 
 const appReducer = {
   studentState: studentReducer,

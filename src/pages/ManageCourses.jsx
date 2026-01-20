@@ -9,12 +9,9 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-  abortPostCourseData,
-  abortUpdateCourseData,
-  abortGetCourseData,
 } from "../redux/actions/coursesActions";
 import Loading from "../components/Loading";
-
+import { closeModal, openModal } from "../redux/slices/courseSlice";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -38,9 +35,9 @@ const ManageCourses = () => {
 
   useEffect(() => {
     dispatch(getCourseData());
-    return ()=>{
-      abortGetCourseData();
-    }
+    return () => {
+      
+    };
   }, []);
 
   useEffect(() => {
@@ -59,7 +56,7 @@ const ManageCourses = () => {
   }, [courses]);
 
   const handleEdit = (courseId) => {
-    dispatch({ type: "OPEN_MODAL" });
+    dispatch(openModal());
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
@@ -113,9 +110,7 @@ const ManageCourses = () => {
   };
 
   const handleClose = () => {
-    dispatch({ type: "CLOSE_MODAL" });
-    abortPostCourseData();
-    abortUpdateCourseData();
+    dispatch(closeModal());
   };
 
   return (
@@ -162,7 +157,7 @@ const ManageCourses = () => {
       <Table
         tableColumns={tableColumns}
         data={courseArray}
-        onAddClick={() => dispatch({ type: "OPEN_MODAL" })}
+        onAddClick={() => dispatch(openModal())}
       />
     </main>
   );
