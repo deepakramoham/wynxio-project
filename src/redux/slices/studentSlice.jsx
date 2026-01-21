@@ -65,7 +65,7 @@ export const studentSlice = createSlice({
       })
       .addCase(updateStudentData.fulfilled, (state, action) => {
         state.students = state?.students?.map((std) =>
-          std?.id === action.payload?.id ? action.payload : course,
+          std?.id === action.payload?.id ? action.payload : std,
         );
         state.loading = false;
         state.error = null;
