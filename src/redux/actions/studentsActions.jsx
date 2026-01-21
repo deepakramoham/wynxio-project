@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
 export const getStudentDataById = createAsyncThunk(
-  "course/getStudentsData",
+  "course/getStudentsDataById",
   async (id) => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));

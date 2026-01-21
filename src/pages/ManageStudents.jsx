@@ -2,19 +2,15 @@ import { useState, useEffect } from "react";
 import Table from "../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteStudentData, getStudentsData } from "../redux/actions/studentsActions";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getStudentsData = async () => {
-      const response = await fetch("http://localhost:3500/students");
-      const data = await response.json();
-      dispatch({ type: "get-students", payload: data });
-    };
-    getStudentsData();
-  }, []);
+    dispatch(getStudentsData());
+  }, [dispatch]);
 
   const studentState = useSelector((state) => state.studentState);
   const courseState = useSelector((state) => state.courseState);
@@ -75,10 +71,7 @@ const ManageStudents = function ListInput() {
   };
 
   const handleDelete = (studentId) => {
-    dispatch({
-      type: "delete",
-      payload: studentId,
-    });
+    dispatch(deleteStudentData(studentId));
   };
 
   const handleAddClick = () => {

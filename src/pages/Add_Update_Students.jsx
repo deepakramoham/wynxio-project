@@ -5,6 +5,11 @@ import Checkbox from "../components/Checkbox";
 import Dropdown from "../components/Dropdown";
 import Input from "../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getStudentDataById,
+  postStudentData,
+  updateStudentData,
+} from "../redux/actions/studentsActions";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
@@ -16,23 +21,23 @@ const Add_Update_Students = () => {
   const studentState = useSelector((state) => state.studentState);
   const courseState = useSelector((state) => state.courseState);
 
-  const { findStudent } = studentState;
-  const { courses } = courseState;
+  const { studentById } = studentState || {};
+  const { courses } = courseState || [];
 
   const id = searchParams.get("id");
   const action = searchParams.get("action");
 
   useEffect(() => {
     if (id && action === "edit") {
-      dispatch({ type: "find", payload: id });
+      dispatch(getStudentDataById(id));
     }
   }, [id]);
 
   useEffect(() => {
     if (action === "edit") {
-      setFormValues(findStudent);
+      setFormValues(studentById);
     }
-  }, [findStudent]);
+  }, [studentById]);
 
   const [formValues, setFormValues] = useState({
     name: "",
@@ -108,13 +113,9 @@ const Add_Update_Students = () => {
   const handleSave = () => {
     if (validateFormValues()) {
       if (formValues?.id) {
-        dispatch({ type: "edit", payload: formValues });
+        dispatch(updateStudentData(formValues));
       } else {
-        const newStudent = { ...formValues, id: crypto.randomUUID() };
-        dispatch({
-          type: "add",
-          payload: newStudent,
-        });
+        dispatch(postStudentData(formValues));
       }
       resetStates();
       goBack();
