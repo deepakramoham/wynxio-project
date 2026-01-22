@@ -1,5 +1,27 @@
 {
-  "students": [],
+  "students": [
+    {
+      "name": "Jinshi",
+      "contact": "9911991100",
+      "education": "non-tech",
+      "timeSlots": [
+        "evening"
+      ],
+      "course": "jSQZ60O",
+      "id": 1
+    },
+    {
+      "name": "Uma",
+      "contact": "9900990000",
+      "education": "non-tech",
+      "timeSlots": [
+        "evening",
+        "morning"
+      ],
+      "course": "jSQZ60O",
+      "id": 2
+    }
+  ],
   "courses": [
     {
       "id": "8d33",
@@ -10,6 +32,16 @@
       "id": "84c5",
       "courseTitle": "CSS",
       "paidCourse": "no"
+    },
+    {
+      "courseTitle": "Javascript",
+      "paidCourse": "no",
+      "id": "YcoIhEN"
+    },
+    {
+      "courseTitle": "React",
+      "paidCourse": "yes",
+      "id": "jSQZ60O"
     }
   ]
 }

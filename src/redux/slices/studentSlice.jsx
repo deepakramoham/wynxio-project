@@ -20,49 +20,24 @@ export const studentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getStudentsData.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(getStudentsData.fulfilled, (state, action) => {
         state.students = action.payload;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getStudentsData.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
-      })
-      .addCase(getStudentDataById.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
+
       .addCase(getStudentDataById.fulfilled, (state, action) => {
         state.studentById = action.payload;
         state.loading = false;
         state.error = null;
       })
-      .addCase(getStudentDataById.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
-      })
-      .addCase(postStudentData.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
+
       .addCase(postStudentData.fulfilled, (state, action) => {
-        state.students = [...state.students, action.payload];
+        // state.students = [...state.students, action.payload];
         state.loading = false;
         state.error = null;
       })
-      .addCase(postStudentData.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
-      })
-      .addCase(updateStudentData.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
+
       .addCase(updateStudentData.fulfilled, (state, action) => {
         state.students = state?.students?.map((std) =>
           std?.id === action.payload?.id ? action.payload : std,
@@ -70,25 +45,27 @@ export const studentSlice = createSlice({
         state.loading = false;
         state.error = null;
       })
-      .addCase(updateStudentData.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
-      })
-      .addCase(deleteStudentData.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
+
       .addCase(deleteStudentData.fulfilled, (state, action) => {
         state.students = state?.students?.filter(
-          (course) => course?.id !== action.payload,
+          (student) => student?.id !== action.payload,
         );
         state.loading = false;
         state.error = null;
       })
-      .addCase(deleteStudentData.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
-      })
+      .addMatcher(
+        (action) => action.type.endsWith("/pending"),
+        (state) => {
+          state.loading = true;
+        },
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/rejected"),
+        (state) => {
+          state.error = action.error;
+          state.loading = false;
+        },
+      )
       .addDefaultCase((state, action) => {
         return state;
       });

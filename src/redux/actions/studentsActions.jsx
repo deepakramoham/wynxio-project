@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
 export const getStudentDataById = createAsyncThunk(
-  "course/getStudentsDataById",
+  "student/getStudentsDataById",
   async (id) => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
@@ -13,7 +13,7 @@ export const getStudentDataById = createAsyncThunk(
   },
 );
 export const getStudentsData = createAsyncThunk(
-  "course/getStudentsData",
+  "student/getStudentsData",
   async () => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
@@ -25,7 +25,7 @@ export const getStudentsData = createAsyncThunk(
 );
 
 export const postStudentData = createAsyncThunk(
-  "course/postStudentData",
+  "student/postStudentData",
   async (studentData) => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
@@ -37,7 +37,7 @@ export const postStudentData = createAsyncThunk(
 );
 
 export const updateStudentData = createAsyncThunk(
-  "course/updateStudentData",
+  "student/updateStudentData",
   async (studentData) => {
     const response = await axiosInstance.put(
       `/students/${studentData?.id}`,
@@ -50,11 +50,12 @@ export const updateStudentData = createAsyncThunk(
 );
 
 export const deleteStudentData = createAsyncThunk(
-  "course/deleteStudentData",
+  "student/deleteStudentData",
   async (id) => {
     const response = await axiosInstance.delete(`/students/${id}`);
-    if (response.data) {
-      return response.data?.id;
+
+    if (response.status === 200) {
+      return id;
     }
   },
 );

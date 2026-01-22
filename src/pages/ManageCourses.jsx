@@ -35,9 +35,7 @@ const ManageCourses = () => {
 
   useEffect(() => {
     dispatch(getCourseData());
-    return () => {
-      
-    };
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -60,7 +58,9 @@ const ManageCourses = () => {
     setCourseDetails(courses?.find((course) => course?.id === courseId));
   };
   const handleDelete = (courseId) => {
-    dispatch(deleteCourseData(courseId));
+    if (confirm("Are you sure you want to delete this course data?")) {
+      dispatch(deleteCourseData(courseId));
+    }
   };
 
   const tableColumns = [

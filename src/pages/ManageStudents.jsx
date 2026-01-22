@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import Table from "../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteStudentData, getStudentsData } from "../redux/actions/studentsActions";
+import {
+  deleteStudentData,
+  getStudentsData,
+} from "../redux/actions/studentsActions";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ const ManageStudents = function ListInput() {
     { header: "Full Name", accessor: "name" },
     { header: "Contact", accessor: "contact" },
     { header: "Education", accessor: "education" },
-    { header: "Familiar tech stacks", accessor: "skills" },
+    { header: "Preferred Time Slots", accessor: "timeSlots" },
     { header: "Course", accessor: "course" },
     {
       header: "Actions",
@@ -56,8 +59,8 @@ const ManageStudents = function ListInput() {
       const modifiedDataArray = students?.map((student, index) => ({
         slNo: index + 1,
         ...student,
-        skills: Array.isArray(student?.skills)
-          ? student?.skills?.join(", ")
+        timeSlots: Array.isArray(student?.timeSlots)
+          ? student?.timeSlots?.join(", ")
           : "",
         course: courses?.find((c) => c.id === student?.course)?.courseTitle,
       }));
@@ -71,7 +74,9 @@ const ManageStudents = function ListInput() {
   };
 
   const handleDelete = (studentId) => {
-    dispatch(deleteStudentData(studentId));
+    if (confirm("Are you sure your want to delete this student data ?")) {
+      dispatch(deleteStudentData(studentId));
+    }
   };
 
   const handleAddClick = () => {

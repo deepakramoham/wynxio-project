@@ -10,6 +10,7 @@ import {
   postStudentData,
   updateStudentData,
 } from "../redux/actions/studentsActions";
+import { getCourseData } from "../redux/actions/coursesActions";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
@@ -28,6 +29,10 @@ const Add_Update_Students = () => {
   const action = searchParams.get("action");
 
   useEffect(() => {
+    dispatch(getCourseData());
+  }, []);
+
+  useEffect(() => {
     if (id && action === "edit") {
       dispatch(getStudentDataById(id));
     }
@@ -43,7 +48,7 @@ const Add_Update_Students = () => {
     name: "",
     contact: "",
     education: "",
-    skills: [],
+    timeSlots: [],
     course: "",
   });
 
@@ -69,6 +74,9 @@ const Add_Update_Students = () => {
     setFormValues({
       name: "",
       contact: "",
+      education: "",
+      timeSlots: [],
+      course: "",
     });
   };
 
@@ -167,15 +175,16 @@ const Add_Update_Students = () => {
 
         <div style={{ maxWidth: "75%", marginTop: "18px" }}>
           <Checkbox
-            name={"skills"}
+            name={"timeSlots"}
             handleInputChange={handleInputChange}
-            label={"Skills familar with"}
+            label={"Preferred Time Slots and Mode"}
             options={[
-              { label: "HTML", value: "html" },
-              { label: "CSS", value: "css" },
-              { label: "Javascript", value: "javascript" },
+              { label: "Morning", value: "morning" },
+              { label: "Afternoon", value: "afternoon" },
+              { label: "Evening", value: "evening" },
+              { label: "Weekend", value: "weekend" },
             ]}
-            selectedValues={formValues?.skills || []}
+            selectedValues={formValues?.timeSlots || []}
           />
         </div>
         <div style={{ maxWidth: "75%", marginTop: "18px" }}>

@@ -40,18 +40,20 @@ export const courseSlice = createSlice({
     //   },
     // });
     builder
-      .addCase(getCourseData.pending, (state, action) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getCourseData.fulfilled, (state, action) => {
-        state.courses = action.payload;
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(getCourseData.rejected, (state, action) => {
-        state.error = action.error;
-        state.loading = false;
+      .addAsyncThunk(getCourseData, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+        },
+        fulfilled: (state, action) => {
+          state.courses = action.payload;
+          state.loading = false;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.error = action.error;
+          state.loading = false;
+        },
       })
       .addCase(postCourseData.pending, (state, action) => {
         state.loading = true;
