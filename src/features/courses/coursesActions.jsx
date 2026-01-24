@@ -19,8 +19,8 @@ export const postCourseData = createAsyncThunk(
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
     const response = await axiosInstance.post(`/courses`, courseData);
-    if (response.data) {
-      return response.data;
+    if (response?.data?.newCourse) {
+      return response.data.newCourse;
     }
   },
 );
@@ -32,8 +32,8 @@ export const updateCourseData = createAsyncThunk(
       `/courses/${courseData?.id}`,
       courseData,
     );
-    if (response.data) {
-      return response.data;
+    if (response?.data?.course) {
+      return response?.data?.course;
     }
   },
 );
@@ -43,7 +43,7 @@ export const deleteCourseData = createAsyncThunk(
   async (id) => {
     const response = await axiosInstance.delete(`/courses/${id}`);
     if (response.data) {
-      return response.data?.id;
+      return response.data?.deletedId;
     }
   },
 );

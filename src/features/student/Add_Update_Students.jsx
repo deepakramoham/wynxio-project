@@ -1,16 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import RadioButton from "../components/RadioButton";
-import Checkbox from "../components/Checkbox";
-import Dropdown from "../components/Dropdown";
-import Input from "../components/Input/Input";
+import RadioButton from "../../components/RadioButton";
+import Checkbox from "../../components/Checkbox";
+import Dropdown from "../../components/Dropdown";
+import Input from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getStudentDataById,
   postStudentData,
   updateStudentData,
-} from "../redux/actions/studentsActions";
-import { getCourseData } from "../redux/actions/coursesActions";
+} from "./studentsActions";
+import { getCourseData } from "../courses/coursesActions";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
@@ -40,7 +40,8 @@ const Add_Update_Students = () => {
 
   useEffect(() => {
     if (action === "edit") {
-      setFormValues(studentById);
+      const updateStudent = { ...studentById, course: studentById?.course?.id };
+      setFormValues(updateStudent);
     }
   }, [studentById]);
 
@@ -90,7 +91,6 @@ const Add_Update_Students = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
   const handleInputChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {

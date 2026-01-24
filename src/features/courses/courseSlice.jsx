@@ -4,7 +4,7 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-} from "../actions/coursesActions";
+} from "./coursesActions";
 
 const initialState = {
   courses: [],

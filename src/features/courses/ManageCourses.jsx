@@ -1,7 +1,7 @@
-import Table from "../components/Table";
-import Modal from "../components/Modal";
-import Input from "../components/Input/Input";
-import RadioButton from "../components/RadioButton";
+import Table from "../../components/Table";
+import Modal from "../../components/Modal";
+import Input from "../../components/Input/Input";
+import RadioButton from "../../components/RadioButton";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,9 +9,9 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-} from "../redux/actions/coursesActions";
-import Loading from "../components/Loading";
-import { closeModal, openModal } from "../redux/slices/courseSlice";
+} from "./coursesActions"
+import Loading from "../../components/Loading";
+import { closeModal, openModal } from "./courseSlice";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({

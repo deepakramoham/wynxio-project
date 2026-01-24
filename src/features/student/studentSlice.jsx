@@ -5,7 +5,7 @@ import {
   postStudentData,
   updateStudentData,
   deleteStudentData,
-} from "../actions/studentsActions";
+} from "./studentsActions";
 
 const initialState = {
   studentById: null,
@@ -61,7 +61,7 @@ export const studentSlice = createSlice({
       )
       .addMatcher(
         (action) => action.type.endsWith("/rejected"),
-        (state) => {
+        (state, action) => {
           state.error = action.error;
           state.loading = false;
         },

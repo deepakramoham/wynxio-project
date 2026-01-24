@@ -5,22 +5,25 @@ import "./index.css";
 import App from "./App.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import ManageStudents from "./pages/ManageStudents.jsx";
-import ManageCourses from "./pages/ManageCourses.jsx";
-import RouteError from "./pages/RouteError.jsx";
-import Add_Update_Students from "./pages/Add_Update_Students.jsx";
+import DashBoard from "./features/dashboard/Dashboard.jsx";
+import ManageStudents from "./features/student/ManageStudents.jsx";
+import ManageCourses from "./features/courses/ManageCourses.jsx";
+import RouteError from "./features/RouteError.jsx";
+import Add_Update_Students from "./features/student/Add_Update_Students.jsx";
+import SignIn from "./features/user/SignIn.jsx";
+import SignUp from "./features/user/SignUp.jsx";
 import { Provider } from "react-redux";
-import store from "./redux/store.jsx";
+import store from "./app/store.jsx";
 
 const router = createBrowserRouter([
+  { path: "/", element: <SignIn />, errorElement: <RouteError /> },
+  { path: "/sign-in", element: <SignIn /> },
+  { path: "/sign-up", element: <SignUp /> },
   {
     path: "/",
     element: <App />,
-    errorElement: <RouteError />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "/home", element: <Home /> },
+      { path: "/home", element: <DashBoard /> },
       {
         path: "/students",
         element: <ManageStudents />,
@@ -41,7 +44,7 @@ createRoot(document.getElementById("root")).render(
     <AppProvider>
       <RouterProvider router={router} />
     </AppProvider>
-  </Provider>
+  </Provider>,
 
   // </StrictMode>,
 );

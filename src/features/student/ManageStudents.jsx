@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Table from "../components/Table";
+import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteStudentData,
   getStudentsData,
-} from "../redux/actions/studentsActions";
+} from "./studentsActions";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
@@ -16,10 +16,9 @@ const ManageStudents = function ListInput() {
   }, [dispatch]);
 
   const studentState = useSelector((state) => state.studentState);
-  const courseState = useSelector((state) => state.courseState);
 
   const { students } = studentState;
-  const { courses } = courseState;
+
   const [tableData, setTableData] = useState([]);
 
   const tableColumns = [
@@ -62,7 +61,7 @@ const ManageStudents = function ListInput() {
         timeSlots: Array.isArray(student?.timeSlots)
           ? student?.timeSlots?.join(", ")
           : "",
-        course: courses?.find((c) => c.id === student?.course)?.courseTitle,
+        course: student?.course?.courseTitle,
       }));
 
       setTableData(modifiedDataArray);
