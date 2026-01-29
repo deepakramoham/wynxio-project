@@ -7,12 +7,17 @@ const initialState = {
   role: null,
   loading: false,
   error: null,
+  submitReference: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    resetSubmitReference: (state) => {
+      state.submitReference = false;
+    },
+  },
   extraReducers: (builder) => {
     builder.addAsyncThunk(register, {
       pending: (state) => {
@@ -22,6 +27,7 @@ export const userSlice = createSlice({
       fulfilled: (state, action) => {
         state.loading = false;
         state.error = null;
+        state.submitReference = true;
       },
       rejected: (state, action) => {
         state.error = action.error;
@@ -37,6 +43,7 @@ export const userSlice = createSlice({
         state.user = action.payload;
         state.loading = false;
         state.error = null;
+        state.submitReference = true;
       },
       rejected: (state, action) => {
         state.error = action.error;
@@ -46,5 +53,5 @@ export const userSlice = createSlice({
   },
 });
 
-// export const {} = studentSlice.actions;
-export default studentSlice.reducer;
+export const { resetSubmitReference } = userSlice.actions;
+export default userSlice.reducer;

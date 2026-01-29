@@ -14,12 +14,12 @@ export const getStudentDataById = createAsyncThunk(
 );
 export const getStudentsData = createAsyncThunk(
   "student/getStudentsData",
-  async () => {
+  async (_,{getState}) => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
     const response = await axiosInstance.get(`/students`, {
       headers: {
-        Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6IjY5NzRkMTIwMzBlYjI3YmQ4MjIxYzE1OCIsInJvbGVzIjoxMDAwfSwiaWF0IjoxNzY5MjYzNDUzLCJleHAiOjE3NjkyNjUyNTN9.9mkWv4LoTIn6OYSMidmEfzErg_ZEkVrm8O1Hyd6J5XA"}`,
+        Authorization: `Bearer ${getState().userState.user.accessToken}`,
       },
     });
     console.log(response);

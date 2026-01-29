@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
+import styles from "../Layout/Layout.module.css"
 
 const SideBar = () => {
   return (
-    <aside className="sidebar">
+    <aside className={styles.sidebar}>
       <div
         className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
         style={{ position: "sticky", top: "0px", minHeight: "100vh" }}
