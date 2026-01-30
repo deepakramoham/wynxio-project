@@ -4,9 +4,10 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-} from "./coursesActions";
+} from "./coursesThunks";
 
 const initialState = {
+  onload: false,
   courses: [],
   loading: false,
   error: null,
@@ -47,6 +48,7 @@ export const courseSlice = createSlice({
         },
         fulfilled: (state, action) => {
           state.courses = action.payload;
+          state.onload = true;
           state.loading = false;
           state.error = null;
         },

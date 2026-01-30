@@ -9,7 +9,7 @@ import {
   postCourseData,
   updateCourseData,
   deleteCourseData,
-} from "./coursesActions"
+} from "./coursesThunks";
 import Loading from "../../components/Loading";
 import { closeModal, openModal } from "./courseSlice";
 
@@ -20,7 +20,7 @@ const ManageCourses = () => {
   });
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
-  const { courses, loading, modalOpen, error } = courseState;
+  const { onload, courses, loading, modalOpen, error } = courseState;
   const [courseArray, setCourseArray] = useState([]);
   // console.log(error, "error");
 
@@ -34,9 +34,11 @@ const ManageCourses = () => {
   }, [modalOpen]);
 
   useEffect(() => {
-    dispatch(getCourseData());
+    if (!onload) {
+      dispatch(getCourseData());
+    }
     return () => {};
-  }, []);
+  }, [dispatch, onload]);
 
   useEffect(() => {
     if (Array.isArray(courses)) {
@@ -114,7 +116,7 @@ const ManageCourses = () => {
   };
 
   return (
-    <main className="main">
+    <>
       {modalOpen && (
         <Modal
           loading={loading}
@@ -159,7 +161,7 @@ const ManageCourses = () => {
         data={courseArray}
         onAddClick={() => dispatch(openModal())}
       />
-    </main>
+    </>
   );
 };
 

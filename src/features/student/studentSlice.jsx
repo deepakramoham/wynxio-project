@@ -5,22 +5,28 @@ import {
   postStudentData,
   updateStudentData,
   deleteStudentData,
-} from "./studentsActions";
-
+} from "./studentsThunks";
 const initialState = {
+  onload:false,
   studentById: null,
   students: [],
   loading: false,
   error: null,
+  submitReference: false,
 };
 
 export const studentSlice = createSlice({
   name: "student",
   initialState,
-  reducers: {},
+  reducers: {
+    resetSubmitReference: (state) => {
+      state.submitReference = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getStudentsData.fulfilled, (state, action) => {
+        state.onload=true;
         state.students = action.payload;
         state.loading = false;
         state.error = null;
@@ -33,17 +39,19 @@ export const studentSlice = createSlice({
       })
 
       .addCase(postStudentData.fulfilled, (state, action) => {
-        // state.students = [...state.students, action.payload];
+        state.students = [...state.students, action.payload?.student];
         state.loading = false;
         state.error = null;
+        state.submitReference = true;
       })
 
       .addCase(updateStudentData.fulfilled, (state, action) => {
         state.students = state?.students?.map((std) =>
-          std?.id === action.payload?.id ? action.payload : std,
+          std?.id === action.payload?.student?.id ? action.payload.student : std,
         );
         state.loading = false;
         state.error = null;
+        state.submitReference = true;
       })
 
       .addCase(deleteStudentData.fulfilled, (state, action) => {
@@ -72,5 +80,5 @@ export const studentSlice = createSlice({
   },
 });
 
-// export const {} = studentSlice.actions;
+export const { resetSubmitReference } = studentSlice.actions;
 export default studentSlice.reducer;

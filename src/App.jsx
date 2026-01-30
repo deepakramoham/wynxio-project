@@ -1,5 +1,5 @@
-import Layout from "./components/Layout";
 import { useSelector } from "react-redux";
+import Layout from "./Layout"
 
 function App() {
   const userState = useSelector((state) => state.userState);

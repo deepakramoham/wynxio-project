@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login } from "./userActions";
+import { register, login } from "./userThunks";
+
+const userDetails = JSON.parse(localStorage.getItem("user")) || null;
 
 const initialState = {
-  user: null,
-  accessToken: null,
-  role: null,
+  user: userDetails || null,
   loading: false,
   error: null,
   submitReference: false,
@@ -15,6 +15,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     resetSubmitReference: (state) => {
+      state.submitReference = false;
+    },
+    logOut: (state) => {
+      state.user = null;
+      state.loading = false;
+      state.error = null;
       state.submitReference = false;
     },
   },
@@ -53,5 +59,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { resetSubmitReference } = userSlice.actions;
+export const { resetSubmitReference, logOut } = userSlice.actions;
 export default userSlice.reducer;

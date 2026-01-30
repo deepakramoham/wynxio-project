@@ -2,24 +2,23 @@ import { useState, useEffect } from "react";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteStudentData,
-  getStudentsData,
-} from "./studentsActions";
+import { deleteStudentData, getStudentsData } from "./studentsThunks";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getStudentsData());
-  }, [dispatch]);
-
   const studentState = useSelector((state) => state.studentState);
 
-  const { students } = studentState;
+  const { students, onload } = studentState;
 
   const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    if (!onload) {
+      dispatch(getStudentsData());
+    }
+  }, [dispatch, onload]);
 
   const tableColumns = [
     { header: "Sl. No", accessor: "slNo" },
@@ -83,15 +82,13 @@ const ManageStudents = function ListInput() {
   };
 
   return (
-    <main className="main">
-      <div className="p-2 ">
-        <Table
-          tableColumns={tableColumns}
-          data={tableData}
-          onAddClick={handleAddClick}
-        />
-      </div>
-    </main>
+    <div className="p-2 ">
+      <Table
+        tableColumns={tableColumns}
+        data={tableData}
+        onAddClick={handleAddClick}
+      />
+    </div>
   );
 };
 

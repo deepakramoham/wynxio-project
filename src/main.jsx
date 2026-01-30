@@ -14,6 +14,9 @@ import SignIn from "./features/user/SignIn.jsx";
 import SignUp from "./features/user/SignUp.jsx";
 import { Provider } from "react-redux";
 import store from "./app/store.jsx";
+import { getStore } from "./services/apiClient.jsx";
+
+getStore(store);
 
 const router = createBrowserRouter([
   { path: "/", element: <SignIn />, errorElement: <RouteError /> },
@@ -23,7 +26,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "/home", element: <DashBoard /> },
+      { path: "/dashboard", element: <DashBoard /> },
       {
         path: "/students",
         element: <ManageStudents />,

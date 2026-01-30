@@ -9,8 +9,9 @@ import {
   getStudentDataById,
   postStudentData,
   updateStudentData,
-} from "./studentsActions";
-import { getCourseData } from "../courses/coursesActions";
+} from "./studentsThunks";
+import { getCourseData } from "../courses/coursesThunks";
+import { resetSubmitReference } from "./studentSlice";
 
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
@@ -22,15 +23,17 @@ const Add_Update_Students = () => {
   const studentState = useSelector((state) => state.studentState);
   const courseState = useSelector((state) => state.courseState);
 
-  const { studentById } = studentState || {};
-  const { courses } = courseState || [];
+  const { studentById, submitReference } = studentState || {};
+  const { onload, courses } = courseState || [];
 
   const id = searchParams.get("id");
   const action = searchParams.get("action");
 
   useEffect(() => {
-    dispatch(getCourseData());
-  }, []);
+    if (!onload) {
+      dispatch(getCourseData());
+    }
+  }, [dispatch, onload]);
 
   useEffect(() => {
     if (id && action === "edit") {
@@ -56,6 +59,14 @@ const Add_Update_Students = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const [courseOptions, setCourseOptions] = useState([]);
+
+  useEffect(() => {
+    if (submitReference) {
+      resetStates();
+      goBack();
+      dispatch(resetSubmitReference());
+    }
+  }, [submitReference]);
 
   useEffect(() => {
     const options = courses?.map((course) => ({
@@ -125,12 +136,10 @@ const Add_Update_Students = () => {
       } else {
         dispatch(postStudentData(formValues));
       }
-      resetStates();
-      goBack();
     }
   };
   return (
-    <main className="main">
+    <>
       <div
         style={{
           padding: ".5em",
@@ -218,7 +227,7 @@ const Add_Update_Students = () => {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 

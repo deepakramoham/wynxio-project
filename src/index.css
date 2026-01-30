@@ -27,15 +27,7 @@ input {
   color: white;
 }
 
-#root{
+#root {
   min-height: 100vh;
   width: 100%;
 }
-
-.main {
-  grid-area: mn;
-  font-size: 1rem;
-  padding: 0.75em;
-}
-
-

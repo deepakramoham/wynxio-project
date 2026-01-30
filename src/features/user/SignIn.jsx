@@ -1,7 +1,7 @@
 import Input from "../../components/Input/Input";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "./userActions";
+import { login } from "./userThunks";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSubmitReference } from "./userSlice";
 const SignIn = () => {
@@ -20,7 +20,7 @@ const SignIn = () => {
   useEffect(() => {
     if (submitReference) {
       resetStates();
-      navigate("/home");
+      navigate("/dashboard");
       dispatch(resetSubmitReference());
     }
   }, [submitReference]);

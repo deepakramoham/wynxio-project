@@ -2,7 +2,7 @@ import Input from "../../components/Input/Input";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "./userActions";
+import { register } from "./userThunks";
 import { useNavigate } from "react-router-dom";
 import { resetSubmitReference } from "./userSlice";
 const SignUp = () => {

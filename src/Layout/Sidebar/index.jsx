@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import styles from "../Layout/Layout.module.css"
+import styles from "../Layout.module.css"
 
 const SideBar = () => {
   return (
@@ -9,7 +9,7 @@ const SideBar = () => {
         style={{ position: "sticky", top: "0px", minHeight: "100vh" }}
       >
         <NavLink
-          to="/home"
+          to="/dashboard"
           className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
         >
           <span className="fs-4">Course Master</span>
@@ -18,13 +18,13 @@ const SideBar = () => {
         <ul className="nav nav-pills flex-column mb-auto">
           <li className="nav-item">
             <NavLink
-              to="/home"
+              to="/dashboard"
               className={({ isActive }) =>
                 `nav-link text-white ${isActive ? "active" : ""}`
               }
               aria-current="page"
             >
-              Home
+              Dashboard
             </NavLink>
           </li>
           <li>
