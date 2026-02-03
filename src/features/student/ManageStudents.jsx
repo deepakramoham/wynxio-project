@@ -68,7 +68,7 @@ const ManageStudents = function ListInput() {
   }, [students]);
 
   const handleEdit = (studentId) => {
-    navigate(`/students/edit-student?id=${studentId}&action=edit`);
+    navigate(`/app/admin/students/edit-student?id=${studentId}&action=edit`);
   };
 
   const handleDelete = (studentId) => {
@@ -78,7 +78,7 @@ const ManageStudents = function ListInput() {
   };
 
   const handleAddClick = () => {
-    navigate(`/students/add-student`);
+    navigate(`/app/admin/students/add-student`);
   };
 
   return (
