@@ -11,7 +11,7 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const userState = useSelector((state) => state.userState);
-  const { submitReference } = userState;
+  const { user, submitReference } = userState;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,10 +20,15 @@ const SignIn = () => {
   useEffect(() => {
     if (submitReference) {
       resetStates();
-      navigate("/dashboard");
+      if (user?.role === 1100) {
+        navigate("/app/admin/dashboard");
+      } else if (user?.role === 1000) {
+        navigate("/app/user/dashboard");
+      }
+
       dispatch(resetSubmitReference());
     }
-  }, [submitReference]);
+  }, [submitReference, user?.role]);
 
   const resetStates = () => {
     setFormErrors({});

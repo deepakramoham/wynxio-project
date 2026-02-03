@@ -4,8 +4,7 @@ const Unauthorized = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    localStorage.removeItem("user");
-    navigate("/sign-in");
+    navigate(-1);
   };
   return (
     <section>

@@ -17,6 +17,7 @@ import store from "./app/store.jsx";
 import { getStore } from "./services/apiClient.jsx";
 import SessionOut from "./features/pages/SessionOut.jsx";
 import Unauthorized from "./features/pages/Unauthorized.jsx";
+import RequiredAuth from "./components/Authorization/RequiredAuth.jsx";
 
 getStore(store);
 
@@ -29,25 +30,35 @@ const router = createBrowserRouter([
     element: <SessionOut />,
   },
   {
-    path: "/Unauthorized",
+    path: "/unauthorized",
     element: <Unauthorized />,
   },
   {
-    path: "/",
+    path: "/app",
     element: <App />,
     children: [
-      { path: "/dashboard", element: <DashBoard /> },
       {
-        path: "/students",
-        element: <ManageStudents />,
+        path: "admin",
+        element: <RequiredAuth allowedRole={1100} />,
+        children: [
+          { path: "dashboard", element: <DashBoard /> },
+          {
+            path: "students",
+            element: <ManageStudents />,
+          },
+          { path: "students/add-student", element: <Add_Update_Students /> },
+          {
+            path: "students/edit-student",
+            element: <Add_Update_Students />,
+          },
+          { path: "courses", element: <ManageCourses /> },
+        ],
       },
-      { path: "/students/add-student", element: <Add_Update_Students /> },
       {
-        path: "/students/edit-student",
-        element: <Add_Update_Students />,
+        path: "user",
+        element: <RequiredAuth allowedRole={1000} />,
+        children: [{ path: "dashboard", element: <p>User Dashboard</p> }],
       },
-      { path: "/courses", element: <ManageCourses /> },
-      { path: "/user/dashboard", element: <p>User Dashboard</p> },
     ],
   },
 ]);
