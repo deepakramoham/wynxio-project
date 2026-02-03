@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logOut } from "../features/user/userSlice";
 
 let store;
 
@@ -23,6 +24,21 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
+);
+
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log(response);
+    return response;
+  },
+  (error) => {
+    if (error?.response?.status === 403) {
+      console.log(error);
+      store.dispatch(logOut());
+      localStorage.removeItem("user");
+      window.location.href = "/session-expired";
+    }
+  },
 );
 
 export default apiClient;

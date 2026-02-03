@@ -8,7 +8,7 @@ const DropDownMenu = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    dispatch(logOut());
+    //dispatch(logOut());
     navigate("/sign-in");
   };
   return (
