@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "./userThunks";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSubmitReference } from "./userSlice";
+import Loading from "../../components/Loading";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const userState = useSelector((state) => state.userState);
-  const { user, submitReference } = userState;
+  const { loading, user, submitReference } = userState;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -114,13 +115,14 @@ const SignIn = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-
             marginTop: ".5em",
           }}
         >
           <button className="btn btn-primary" onClick={handleSubmit}>
             Sign In
           </button>
+
+          {loading && <Loading />}
         </div>
       </div>
     </div>

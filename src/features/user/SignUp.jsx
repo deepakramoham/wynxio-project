@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "./userThunks";
 import { useNavigate } from "react-router-dom";
 import { resetSubmitReference } from "./userSlice";
+import Loading from "../../components/Loading";
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const SignUp = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const userState = useSelector((state) => state.userState);
-  const { submitReference } = userState;
+  const { loading, submitReference } = userState;
 
   useEffect(() => {
     if (submitReference) {
@@ -150,6 +151,7 @@ const SignUp = () => {
           <button className="btn btn-primary" onClick={handleSubmit}>
             Sign Up
           </button>
+          {loading && <Loading />}
         </div>
       </div>
     </div>
