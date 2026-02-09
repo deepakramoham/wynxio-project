@@ -63,7 +63,7 @@ const SignUp = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        minHeight: "100svh",
       }}
     >
       <div

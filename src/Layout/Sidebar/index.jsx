@@ -62,7 +62,7 @@ const SideBar = ({ sidebarOpen, sidebarRef }) => {
       ) : userRole === 1000 ? (
         <div
           className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
-          style={{ position: "sticky", top: "0px", minHeight: "100vh" }}
+          style={{ position: "sticky", top: "0px", minHeight: "100svh" }}
         >
           <NavLink
             to="/app/user/dashboard"
