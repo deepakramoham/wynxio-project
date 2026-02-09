@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -6,7 +6,11 @@ import App from "./App.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashBoard from "./features/dashboard/Dashboard.jsx";
-import ManageStudents from "./features/student/ManageStudents.jsx";
+
+const ManageStudents = lazy(
+  () => import("./features/student/ManageStudents.jsx"),
+);
+//import ManageStudents from "./features/student/ManageStudents.jsx";
 import ManageCourses from "./features/courses/ManageCourses.jsx";
 import RouteError from "./features/pages/RouteError.jsx";
 import Add_Update_Students from "./features/student/Add_Update_Students.jsx";
@@ -18,6 +22,9 @@ import { getStore } from "./services/apiClient.jsx";
 import SessionOut from "./features/pages/SessionOut.jsx";
 import Unauthorized from "./features/pages/Unauthorized.jsx";
 import RequiredAuth from "./components/Authorization/RequiredAuth.jsx";
+import Loading from "./components/Loading/index.jsx";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./components/ErrorFallBack.jsx";
 
 getStore(store);
 
@@ -39,7 +46,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "admin",
-        element: <RequiredAuth allowedRole={1100} />,
+        element: (
+          <ErrorBoundary
+            FallbackComponent={ErrorFallback}
+            onReset={() => {
+              // window.location.href = "/app/admin/dashboard";
+              console.log("attempt again");
+            }}
+          >
+            <Suspense fallback={<Loading />}>
+              <RequiredAuth allowedRole={1100} />
+            </Suspense>
+          </ErrorBoundary>
+        ),
         children: [
           { path: "dashboard", element: <DashBoard /> },
           {
