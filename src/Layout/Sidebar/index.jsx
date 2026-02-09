@@ -2,12 +2,15 @@ import { NavLink } from "react-router-dom";
 import styles from "../Layout.module.css";
 import { useSelector } from "react-redux";
 
-const SideBar = () => {
+const SideBar = ({ sidebarOpen, sidebarRef }) => {
   const userState = useSelector((state) => state.userState);
   const { user } = userState || {};
   const userRole = user?.role;
   return (
-    <aside className={styles.sidebar}>
+    <aside
+      className={`${sidebarOpen ? `${styles.sidebar} ${styles.active}` : `${styles.sidebar}`}`}
+      ref={sidebarRef}
+    >
       {userRole === 1100 ? (
         <div
           className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"

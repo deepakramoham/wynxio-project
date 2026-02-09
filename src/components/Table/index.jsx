@@ -18,7 +18,7 @@ const Table = ({ tableColumns, data, onAddClick }) => {
         return (
           value && value.toString().toLowerCase().includes(search.toLowerCase())
         );
-      })
+      }),
     );
 
     setFilteredData(ftData);
@@ -47,32 +47,36 @@ const Table = ({ tableColumns, data, onAddClick }) => {
           </button>
         </div>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            {tableColumns?.map((col, index) => (
-              <th key={index}>{col.header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData?.length > 0 ? (
-            filteredData?.map((student, index) => (
-              <tr key={index}>
-                {tableColumns.map((col, index) => (
-                  <td key={index}>
-                    {col?.render ? col?.render(student) : student[col.accessor]}
-                  </td>
-                ))}
-              </tr>
-            ))
-          ) : (
+      <div className="overflow-auto">
+        <table className="table ">
+          <thead>
             <tr>
-              <td>No data found</td>
+              {tableColumns?.map((col, index) => (
+                <th key={index}>{col.header}</th>
+              ))}
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData?.length > 0 ? (
+              filteredData?.map((student, index) => (
+                <tr key={index}>
+                  {tableColumns.map((col, index) => (
+                    <td key={index}>
+                      {col?.render
+                        ? col?.render(student)
+                        : student[col.accessor]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td>No data found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

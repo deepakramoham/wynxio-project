@@ -28,7 +28,6 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (error) => {
