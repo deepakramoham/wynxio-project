@@ -206,7 +206,15 @@ const Add_Update_Students = () => {
           />
         </div>
 
-        <div className={""}>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            gap: "5px",
+            marginTop: "20px",
+          }}
+        >
           <div>
             <button
               type="button"
