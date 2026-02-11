@@ -61,7 +61,7 @@ const SignIn = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100svh",
+        minHeight: "100vh",
       }}
     >
       <div
