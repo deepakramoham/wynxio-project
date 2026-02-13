@@ -185,7 +185,7 @@ const Add_Update_Students = () => {
           />
         </div>
 
-        {/* <div style={{ maxWidth: "75%", marginTop: "18px" }}>
+        <div style={{ maxWidth: "75%", marginTop: "18px" }}>
           <Checkbox
             name={"timeSlots"}
             handleInputChange={handleInputChange}
@@ -198,7 +198,7 @@ const Add_Update_Students = () => {
             ]}
             selectedValues={formValues?.timeSlots || []}
           />
-        </div> */}
+        </div>
         <div style={{ maxWidth: "75%", marginTop: "18px" }}>
           <Dropdown
             name={"course"}
