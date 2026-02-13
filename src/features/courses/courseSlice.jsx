@@ -57,7 +57,7 @@ export const courseSlice = createSlice({
           state.loading = false;
         },
       })
-      .addCase(postCourseData.pending, (state, action) => {
+      .addCase(postCourseData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -71,7 +71,7 @@ export const courseSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       })
-      .addCase(updateCourseData.pending, (state, action) => {
+      .addCase(updateCourseData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -87,7 +87,7 @@ export const courseSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       })
-      .addCase(deleteCourseData.pending, (state, action) => {
+      .addCase(deleteCourseData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -102,7 +102,7 @@ export const courseSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       })
-      .addDefaultCase((state, action) => {
+      .addDefaultCase((state) => {
         return state;
       });
   },

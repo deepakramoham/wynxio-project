@@ -32,7 +32,6 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 403) {
-      console.log(error);
       store.dispatch(logOut());
       localStorage.removeItem("user");
       window.location.href = "/session-expired";

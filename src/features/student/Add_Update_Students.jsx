@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback, useEffect } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import RadioButton from "../../components/RadioButton";
 import Checkbox from "../../components/Checkbox";
 import Dropdown from "../../components/Dropdown";
@@ -16,9 +16,8 @@ import { resetSubmitReference } from "./studentSlice";
 const Add_Update_Students = () => {
   const nameRef = useRef(null);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const studentState = useSelector((state) => state.studentState);
   const courseState = useSelector((state) => state.courseState);
@@ -28,6 +27,37 @@ const Add_Update_Students = () => {
 
   const id = searchParams.get("id");
   const action = searchParams.get("action");
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    contact: "",
+    education: "",
+    timeSlots: [],
+    course: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const goBack = useCallback(() => {
+    navigate(-1);
+    setFormErrors({});
+    setFormValues({
+      name: "",
+      contact: "",
+      education: "",
+      timeSlots: [],
+      course: "",
+    });
+  }, [navigate]);
+
+  // const resetStates = () => {
+  //   setFormErrors({});
+  //   setFormValues({
+  //     name: "",
+  //     contact: "",
+  //     education: "",
+  //     timeSlots: [],
+  //     course: "",
+  //   });
+  // };
 
   useEffect(() => {
     if (!onload) {
@@ -39,58 +69,31 @@ const Add_Update_Students = () => {
     if (id && action === "edit") {
       dispatch(getStudentDataById(id));
     }
-  }, [id]);
+  }, [id, action, dispatch]);
 
   useEffect(() => {
     if (action === "edit") {
       const updateStudent = { ...studentById, course: studentById?.course?.id };
-      setFormValues(updateStudent);
+      if (updateStudent) {
+        setTimeout(() => setFormValues(updateStudent));
+      }
     }
-  }, [studentById]);
-
-  const [formValues, setFormValues] = useState({
-    name: "",
-    contact: "",
-    education: "",
-    timeSlots: [],
-    course: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({});
-
-  const [courseOptions, setCourseOptions] = useState([]);
+  }, [studentById, action]);
 
   useEffect(() => {
     if (submitReference) {
-      resetStates();
-      goBack();
+      setTimeout(() => goBack());
+
       dispatch(resetSubmitReference());
     }
-  }, [submitReference]);
+  }, [submitReference, dispatch, goBack]);
 
-  useEffect(() => {
-    const options = courses?.map((course) => ({
+  const courseOptions = useMemo(() => {
+    return courses?.map((course) => ({
       label: course?.courseTitle,
       value: course?.id,
     }));
-
-    setCourseOptions(options);
   }, [courses]);
-
-  const goBack = () => {
-    navigate(-1);
-  };
-
-  const resetStates = () => {
-    setFormErrors({});
-    setFormValues({
-      name: "",
-      contact: "",
-      education: "",
-      timeSlots: [],
-      course: "",
-    });
-  };
 
   const validateFormValues = () => {
     const errors = {};

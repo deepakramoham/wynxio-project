@@ -1,9 +1,7 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logOut } from "../../../features/user/userSlice";
 import styles from "./DropdownMenu.module.css";
 const DropDownMenu = () => {
-  const dispatch = useDispatch();
+ 
   const navigate = useNavigate();
 
   const handleLogout = () => {

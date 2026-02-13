@@ -6,8 +6,9 @@ import {
   updateStudentData,
   deleteStudentData,
 } from "./studentsThunks";
+
 const initialState = {
-  onload:false,
+  onload: false,
   studentById: null,
   students: [],
   loading: false,
@@ -26,7 +27,7 @@ export const studentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getStudentsData.fulfilled, (state, action) => {
-        state.onload=true;
+        state.onload = true;
         state.students = action.payload;
         state.loading = false;
         state.error = null;
@@ -47,7 +48,9 @@ export const studentSlice = createSlice({
 
       .addCase(updateStudentData.fulfilled, (state, action) => {
         state.students = state?.students?.map((std) =>
-          std?.id === action.payload?.student?.id ? action.payload.student : std,
+          std?.id === action.payload?.student?.id
+            ? action.payload.student
+            : std,
         );
         state.loading = false;
         state.error = null;
@@ -74,7 +77,7 @@ export const studentSlice = createSlice({
           state.loading = false;
         },
       )
-      .addDefaultCase((state, action) => {
+      .addDefaultCase((state) => {
         return state;
       });
   },

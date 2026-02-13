@@ -20,7 +20,7 @@ export const getStudentDataById = createAsyncThunk(
 );
 export const getStudentsData = createAsyncThunk(
   "student/getStudentsData",
-  async (_, { getState }) => {
+  async () => {
     //simulating network delay 2seconds
     // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
     const response = await getStudentApi();

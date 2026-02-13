@@ -18,18 +18,6 @@ const SignIn = () => {
     const { name, value } = e.target;
     setFormValues((preValues) => ({ ...preValues, [name]: value }));
   };
-  useEffect(() => {
-    if (submitReference) {
-      resetStates();
-      if (user?.role === 1100) {
-        navigate("/app/admin/dashboard");
-      } else if (user?.role === 1000) {
-        navigate("/app/user/dashboard");
-      }
-
-      dispatch(resetSubmitReference());
-    }
-  }, [submitReference, user?.role]);
 
   const resetStates = () => {
     setFormErrors({});
@@ -38,6 +26,19 @@ const SignIn = () => {
       password: "",
     });
   };
+
+  useEffect(() => {
+    if (submitReference) {
+      setTimeout(() => resetStates());
+      if (user?.role === 1100) {
+        navigate("/app/admin/dashboard");
+      } else if (user?.role === 1000) {
+        navigate("/app/user/dashboard");
+      }
+
+      dispatch(resetSubmitReference());
+    }
+  }, [submitReference, user?.role, dispatch, navigate]);
 
   const validateFormValues = () => {
     const errors = {};
