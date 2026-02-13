@@ -11,7 +11,7 @@ const ManageStudents = function ListInput() {
 
   const studentState = useSelector((state) => state.studentState);
 
-  const { students, onload, loading } = studentState;
+  const { students, onload } = studentState;
 
   useEffect(() => {
     if (!onload) {
@@ -78,7 +78,7 @@ const ManageStudents = function ListInput() {
 
   return (
     <div className="p-2 ">
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
       <Table
         tableColumns={tableColumns}
         data={tableData}

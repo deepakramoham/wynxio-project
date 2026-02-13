@@ -4,6 +4,7 @@ const Checkbox = ({
   handleInputChange,
   name,
   selectedValues,
+  className,
 }) => {
   return (
     <>
@@ -27,10 +28,13 @@ const Checkbox = ({
                 value={opt.value}
                 onChange={handleInputChange}
                 checked={selectedValues?.includes(opt.value)}
+                className={`form-check-input ${className || ""}`}
               />
             </div>
             <div>
-              <label htmlFor={opt.value}>{opt.label}</label>
+              <label htmlFor={opt.value} className="form-check-label">
+                {opt.label}
+              </label>
             </div>
           </div>
         ))}

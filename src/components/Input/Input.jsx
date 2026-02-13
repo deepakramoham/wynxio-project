@@ -23,7 +23,7 @@ const Input = memo(
             type={props?.type}
             placeholder={props?.placeholder}
             onChange={props?.onChange}
-            className={`${props?.className || ""}`}
+            className={`form-control ${props?.className || ""}`}
             style={props?.style || {}}
           />
         </div>

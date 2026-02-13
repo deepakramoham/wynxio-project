@@ -37,6 +37,7 @@ export const studentSlice = createSlice({
         state.studentById = action.payload;
         state.loading = false;
         state.error = null;
+
       })
 
       .addCase(postStudentData.fulfilled, (state, action) => {
