@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   getStudentDataById,
   getStudentsData,
@@ -37,7 +37,6 @@ export const studentSlice = createSlice({
         state.studentById = action.payload;
         state.loading = false;
         state.error = null;
-
       })
 
       .addCase(postStudentData.fulfilled, (state, action) => {
@@ -66,13 +65,25 @@ export const studentSlice = createSlice({
         state.error = null;
       })
       .addMatcher(
-        (action) => action.type.endsWith("/pending"),
+        isPending(
+          getStudentDataById,
+          getStudentsData,
+          postStudentData,
+          updateStudentData,
+          deleteStudentData,
+        ),
         (state) => {
           state.loading = true;
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
+        isRejected(
+          getStudentDataById,
+          getStudentsData,
+          postStudentData,
+          updateStudentData,
+          deleteStudentData,
+        ),
         (state, action) => {
           state.error = action.error;
           state.loading = false;

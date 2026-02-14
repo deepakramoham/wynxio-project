@@ -3,6 +3,7 @@ import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudentData, getStudentsData } from "./studentsThunks";
+import Loading from "../../components/Loading";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const ManageStudents = function ListInput() {
 
   const studentState = useSelector((state) => state.studentState);
 
-  const { students, onload } = studentState;
+  const { students, onload, loading } = studentState;
 
   useEffect(() => {
     if (!onload) {
@@ -77,6 +78,7 @@ const ManageStudents = function ListInput() {
 
   return (
     <div className="p-2 ">
+      {loading && <Loading />}
       <Table
         tableColumns={tableColumns}
         data={tableData}
