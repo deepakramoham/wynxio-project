@@ -5,6 +5,7 @@ import { login } from "./userThunks";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSubmitReference } from "./userSlice";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,24 +13,18 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const userState = useSelector((state) => state.userState);
-  const { loading, user, submitReference } = userState;
+  const { loading, user, submitReference, error } = userState;
+
+  useEffect(() => {
+    if (!submitReference && error) {
+      toast.error(error?.message || "Something went wrong . . .");
+    }
+  }, [error]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues((preValues) => ({ ...preValues, [name]: value }));
   };
-  useEffect(() => {
-    if (submitReference) {
-      resetStates();
-      if (user?.role === 1100) {
-        navigate("/app/admin/dashboard");
-      } else if (user?.role === 1000) {
-        navigate("/app/user/dashboard");
-      }
-
-      dispatch(resetSubmitReference());
-    }
-  }, [submitReference, user?.role]);
 
   const resetStates = () => {
     setFormErrors({});
@@ -38,6 +33,20 @@ const SignIn = () => {
       password: "",
     });
   };
+
+  useEffect(() => {
+    if (submitReference && !error) {
+      setTimeout(() => resetStates());
+      if (user?.role === 1100) {
+        navigate("/app/admin/dashboard");
+      } else if (user?.role === 1000) {
+        navigate("/app/user/dashboard");
+      }
+
+      dispatch(resetSubmitReference());
+      toast.success("Login Successful");
+    }
+  }, [submitReference, user?.role, dispatch, navigate]);
 
   const validateFormValues = () => {
     const errors = {};

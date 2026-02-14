@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudentData, getStudentsData } from "./studentsThunks";
+import Loading from "../../components/Loading";
 
 const ManageStudents = function ListInput() {
   const navigate = useNavigate();
@@ -10,9 +11,7 @@ const ManageStudents = function ListInput() {
 
   const studentState = useSelector((state) => state.studentState);
 
-  const { students, onload } = studentState;
-
-  const [tableData, setTableData] = useState([]);
+  const { students, onload, loading } = studentState;
 
   useEffect(() => {
     if (!onload) {
@@ -52,19 +51,15 @@ const ManageStudents = function ListInput() {
     },
   ];
 
-  useEffect(() => {
-    if (Array.isArray(students)) {
-      const modifiedDataArray = students?.map((student, index) => ({
-        slNo: index + 1,
-        ...student,
-        timeSlots: Array.isArray(student?.timeSlots)
-          ? student?.timeSlots?.join(", ")
-          : "",
-        course: student?.course?.courseTitle,
-      }));
-
-      setTableData(modifiedDataArray);
-    }
+  const tableData = useMemo(() => {
+    return students?.map((student, index) => ({
+      slNo: index + 1,
+      ...student,
+      timeSlots: Array.isArray(student?.timeSlots)
+        ? student?.timeSlots?.join(", ")
+        : "",
+      course: student?.course?.courseTitle,
+    }));
   }, [students]);
 
   const handleEdit = (studentId) => {
@@ -83,6 +78,7 @@ const ManageStudents = function ListInput() {
 
   return (
     <div className="p-2 ">
+      {loading && <Loading />}
       <Table
         tableColumns={tableColumns}
         data={tableData}

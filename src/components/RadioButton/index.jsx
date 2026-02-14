@@ -4,6 +4,7 @@ const RadioButton = ({
   label,
   handleInputChange,
   selectedValue,
+  className,
 }) => {
   return (
     <>
@@ -27,6 +28,7 @@ const RadioButton = ({
                 type="radio"
                 name={name}
                 onChange={handleInputChange}
+                className={`form-check-input ${className || ""}`}
               />
             </div>
             <div>

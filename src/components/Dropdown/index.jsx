@@ -4,6 +4,7 @@ const Dropdown = ({
   name,
   handleInputChange,
   selectedValue,
+  className,
 }) => {
   return (
     <div>
@@ -15,6 +16,7 @@ const Dropdown = ({
         id={name}
         onChange={handleInputChange}
         value={selectedValue}
+        className={`form-select ${className || ""}`}
       >
         <option value="">Select Course</option>
         {options?.map((opt) => (

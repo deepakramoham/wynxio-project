@@ -30,7 +30,7 @@ export const userSlice = createSlice({
         state.loading = true;
         state.error = null;
       },
-      fulfilled: (state, action) => {
+      fulfilled: (state) => {
         state.loading = false;
         state.error = null;
         state.submitReference = true;

@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import Input from "../Input/Input";
 import { IoAdd } from "react-icons/io5";
 const Table = ({ tableColumns, data, onAddClick }) => {
   const [search, setSearch] = useState("");
 
-  const [filteredData, setFilteredData] = useState([]);
-
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  useEffect(() => {
-    const ftData = data.filter((row) =>
+  const filteredData = useMemo(() => {
+    return data.filter((row) =>
       tableColumns?.some((col) => {
         const value = row[col.accessor];
 
@@ -20,8 +18,6 @@ const Table = ({ tableColumns, data, onAddClick }) => {
         );
       }),
     );
-
-    setFilteredData(ftData);
   }, [data, search, tableColumns]);
 
   return (

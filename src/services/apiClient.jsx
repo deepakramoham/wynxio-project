@@ -1,11 +1,6 @@
 import axios from "axios";
 import { logOut } from "../features/user/userSlice";
-
-let store;
-
-export const getStore = (_store) => {
-  store = _store;
-};
+import { getStore } from "../main";
 
 const BASE_URL = "https://coursemaster-backend-9wxk.onrender.com";
 
@@ -16,7 +11,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const { user } = store.getState().userState || {};
+    const { user } = getStore().getState().userState || {};
     const { accessToken } = user || {};
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
@@ -32,11 +27,11 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 403) {
-      console.log(error);
-      store.dispatch(logOut());
+      getStore().dispatch(logOut());
       localStorage.removeItem("user");
       window.location.href = "/session-expired";
     }
+    return Promise.reject(error);
   },
 );
 

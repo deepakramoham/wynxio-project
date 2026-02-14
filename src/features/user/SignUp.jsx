@@ -18,14 +18,6 @@ const SignUp = () => {
   const userState = useSelector((state) => state.userState);
   const { loading, submitReference } = userState;
 
-  useEffect(() => {
-    if (submitReference) {
-      resetStates();
-      navigate("/sign-in");
-      dispatch(resetSubmitReference());
-    }
-  }, [submitReference]);
-
   const resetStates = () => {
     setFormErrors({});
     setFormValues({
@@ -34,12 +26,18 @@ const SignUp = () => {
       password: "",
     });
   };
+  useEffect(() => {
+    if (submitReference) {
+      setTimeout(() => resetStates());
+      navigate("/sign-in");
+      dispatch(resetSubmitReference());
+    }
+  }, [submitReference, navigate, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues((preValues) => ({ ...preValues, [name]: value }));
   };
-  console.log(formValues);
 
   const validateFormValues = () => {
     const errors = {};

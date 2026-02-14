@@ -1,33 +1,33 @@
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/user/userSlice";
 import { useJwt } from "react-jwt";
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const useTokenExpiration = (accessToken) => {
-  let timerId;
+  const timerId = useRef(null);
   const dispatch = useDispatch();
 
-
   const { decodedToken, isExpired } = useJwt(accessToken);
-
-  const onExpire = () => {
-    dispatch(logOut());
-    localStorage.removeItem("user");
-  };
 
   useEffect(() => {
     if (!accessToken || !decodedToken) {
       return;
     }
+
+    const onExpire = () => {
+      dispatch(logOut());
+      localStorage.removeItem("user");
+    };
+
     if (decodedToken?.exp && decodedToken?.iat && !isExpired) {
       const timeOut = decodedToken?.exp - decodedToken?.iat;
-      timerId = setTimeout(onExpire, timeOut * 1000);
+      timerId.current = setTimeout(onExpire, timeOut * 1000);
     }
 
     return () => {
-      clearTimeout(timerId);
+      clearTimeout(timerId.current);
     };
-  }, [accessToken, decodedToken]);
+  }, [accessToken, decodedToken, isExpired, dispatch]);
 };
 
 export default useTokenExpiration;

@@ -2,7 +2,7 @@ import Table from "../../components/Table";
 import Modal from "../../components/Modal";
 import Input from "../../components/Input/Input";
 import RadioButton from "../../components/RadioButton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCourseData,
@@ -11,7 +11,8 @@ import {
   deleteCourseData,
 } from "./coursesThunks";
 import Loading from "../../components/Loading";
-import { closeModal, openModal } from "./courseSlice";
+import { closeModal, openModal, resetStatus } from "./courseSlice";
+import { toast } from "react-toastify";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -20,16 +21,23 @@ const ManageCourses = () => {
   });
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
-  const { onload, courses, loading, modalOpen, error } = courseState;
-  const [courseArray, setCourseArray] = useState([]);
-  // console.log(error, "error");
+  const { onload, courses, loading, modalOpen, error, status } = courseState;
+
+  useEffect(() => {
+    if (error && status === "failed") {
+      toast.error(error?.message || "Something went wrong");
+      dispatch(resetStatus());
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!modalOpen) {
-      setCourseDetails({
-        courseTitle: "",
-        paidCourse: "",
-      });
+      setTimeout(() =>
+        setCourseDetails({
+          courseTitle: "",
+          paidCourse: "",
+        }),
+      );
     }
   }, [modalOpen]);
 
@@ -40,19 +48,15 @@ const ManageCourses = () => {
     return () => {};
   }, [dispatch, onload]);
 
-  useEffect(() => {
-    if (Array.isArray(courses)) {
-      const modifiedDataArray = courses?.map((course, index) => ({
-        slNo: index + 1,
-        ...course,
-        paidCourse: course?.paidCourse === "no" ? "Free " : "Paid",
-        // skills: Array.isArray(student?.skills)
-        //   ? student?.skills?.join(", ")
-        //   : "",
-      }));
-
-      setCourseArray(modifiedDataArray);
-    }
+  const courseArray = useMemo(() => {
+    return courses?.map((course, index) => ({
+      slNo: index + 1,
+      ...course,
+      paidCourse: course?.paidCourse === "no" ? "Free " : "Paid",
+      // skills: Array.isArray(student?.skills)
+      //   ? student?.skills?.join(", ")
+      //   : "",
+    }));
   }, [courses]);
 
   const handleEdit = (courseId) => {
