@@ -31,6 +31,7 @@ apiClient.interceptors.response.use(
       localStorage.removeItem("user");
       window.location.href = "/session-expired";
     }
+    return Promise.reject(error);
   },
 );
 
