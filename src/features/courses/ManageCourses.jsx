@@ -23,10 +23,6 @@ const ManageCourses = () => {
   const courseState = useSelector((state) => state.courseState);
   const { onload, courses, loading, modalOpen, error, status } = courseState;
 
-  console.log(error);
-
-  // console.log(error, "error");
-
   useEffect(() => {
     if (error && status === "failed") {
       toast.error(error?.message || "Something went wrong");

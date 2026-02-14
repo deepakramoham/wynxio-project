@@ -52,7 +52,7 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    console.log(error, info);
+    // console.log(error, info);
   }
 
   handleReset = () => {
