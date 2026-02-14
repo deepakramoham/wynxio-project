@@ -5,6 +5,7 @@ import { login } from "./userThunks";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSubmitReference } from "./userSlice";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,7 +13,13 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const userState = useSelector((state) => state.userState);
-  const { loading, user, submitReference } = userState;
+  const { loading, user, submitReference, error } = userState;
+
+  useEffect(() => {
+    if (!submitReference && error) {
+      toast.error(error?.message || "Something went wrong . . .");
+    }
+  }, [error]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +35,7 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (submitReference) {
+    if (submitReference && !error) {
       setTimeout(() => resetStates());
       if (user?.role === 1100) {
         navigate("/app/admin/dashboard");
@@ -37,6 +44,7 @@ const SignIn = () => {
       }
 
       dispatch(resetSubmitReference());
+      toast.success("Login Successful");
     }
   }, [submitReference, user?.role, dispatch, navigate]);
 

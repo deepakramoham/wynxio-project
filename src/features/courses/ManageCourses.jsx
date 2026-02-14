@@ -11,7 +11,8 @@ import {
   deleteCourseData,
 } from "./coursesThunks";
 import Loading from "../../components/Loading";
-import { closeModal, openModal } from "./courseSlice";
+import { closeModal, openModal, resetStatus } from "./courseSlice";
+import { toast } from "react-toastify";
 
 const ManageCourses = () => {
   const [courseDetails, setCourseDetails] = useState({
@@ -20,9 +21,18 @@ const ManageCourses = () => {
   });
   const dispatch = useDispatch();
   const courseState = useSelector((state) => state.courseState);
-  const { onload, courses, loading, modalOpen } = courseState;
+  const { onload, courses, loading, modalOpen, error, status } = courseState;
+
+  console.log(error);
 
   // console.log(error, "error");
+
+  useEffect(() => {
+    if (error && status === "failed") {
+      toast.error(error?.message || "Something went wrong");
+      dispatch(resetStatus());
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!modalOpen) {

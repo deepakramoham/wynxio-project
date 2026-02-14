@@ -7,15 +7,17 @@ import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./app/store.jsx";
 import { router } from "./Routes/AppRoutes.jsx";
+import { ToastContainer } from "react-toastify";
 
 export const getStore = () => store;
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-    <Provider store={store}>
-      <AppProvider>
-        <RouterProvider router={router} />
-      </AppProvider>
-    </Provider>
+  <Provider store={store}>
+    <AppProvider>
+      <ToastContainer autoClose={1800} /* position="bottom-right" */ />
+      <RouterProvider router={router} />
+    </AppProvider>
+  </Provider>,
   // </StrictMode>,
 );
