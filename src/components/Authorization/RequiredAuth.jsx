@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "../ReactErrorBoundary/ErrorFallBack";
+// import { ErrorBoundary } from "react-error-boundary";
+// import ErrorFallback from "../ReactErrorBoundary/ErrorFallBack";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import { Suspense } from "react";
 import Loading from "../Loading";
 
@@ -11,12 +12,7 @@ const RequiredAuth = ({ allowedRole }) => {
   const { accessToken, role } = user || {};
 
   return accessToken && role && allowedRole === role ? (
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => {
-        //re attempt logic if any
-      }}
-    >
+    <ErrorBoundary>
       <Suspense fallback={<Loading />}>
         <Outlet />
       </Suspense>
